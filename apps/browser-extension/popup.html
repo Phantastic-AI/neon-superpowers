@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Capture Page Context</title>
+    <script type="module" src="/src/popup.ts"></script>
+  </head>
+  <body>
+    <main class="popup-shell">
+      <header>
+        <p class="eyebrow">Local context capture</p>
+        <h1>Visible page context</h1>
+      </header>
+
+      <section class="actions" aria-label="Capture actions">
+        <button id="capture" type="button">Capture active tab</button>
+        <button id="copy" type="button" disabled>Copy JSON</button>
+      </section>
+
+      <p id="status" class="status" role="status" aria-live="polite">Ready to capture the active tab.</p>
+
+      <dl class="metadata">
+        <div>
+          <dt>Title</dt>
+          <dd id="page-title">—</dd>
+        </div>
+        <div>
+          <dt>URL</dt>
+          <dd id="page-url">—</dd>
+        </div>
+        <div>
+          <dt>Captured</dt>
+          <dd id="captured-at">—</dd>
+        </div>
+      </dl>
+
+      <label class="json-label" for="json-output">Import JSON</label>
+      <textarea id="json-output" readonly spellcheck="false" placeholder="Captured JSON will appear here."></textarea>
+    </main>
+  </body>
+</html>

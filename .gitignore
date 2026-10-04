@@ -56,3 +56,10 @@ venv/
 .idea/
 .vscode/
 *.swp
+
+# Generated personal vault and local browser runtime
+apps/face/vaults/
+
+# Locally installed contributor skills (not application source)
+.agents/skills/
+skills-lock.json

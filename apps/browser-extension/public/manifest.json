@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Browser Operator Context Capture",
+  "description": "Capture visible page context for local desktop import.",
+  "version": "0.1.0",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Capture page context"
+  },
+  "permissions": ["activeTab", "scripting"]
+}

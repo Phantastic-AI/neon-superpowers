@@ -1,0 +1,405 @@
+<!doctype html>
+<!--
+  ember-04.html — a Luma-SHAPED static fixture (no real platform markup, no
+  real people). The guest list is the seed world's Ember Dinners #4, exactly:
+  the 57 persons that tools/seed-world/out/ holds in the ember-dinners
+  context, each row carrying the guest's CURRENT platform state for dinner-4
+  (the same state the seed stream's own fold derives at full cursor) and the
+  anchor hints the ember-dinners context holds for that person in
+  persons.json.
+
+  Deliberately a DIFFERENT page shape from the Partiful fixtures, so the
+  per-platform contract is actually exercised: class-based row and name
+  selectors (.lu-attendee / .lu-attendee-name) where Partiful uses attribute
+  selectors; different attribute names everywhere (data-attendee-key /
+  data-approval-status / data-contact-email / data-contact-phone /
+  data-profile-linkedin vs data-guest-id / data-rsvp-status / data-email /
+  data-phone / data-linkedin); lowercase Luma-idiom status words grouped
+  "Going / Not Going / Invited" where Partiful shouts GOING / CANT_GO /
+  INVITED.
+
+  The arithmetic, by hand (matches tools/projections/check.ts for the seed
+  Ember dinner #4 Room, 19/6/15/17 of 57 with tentative 0):
+
+    approved (accepted)            19
+    maybe (tentative)               0   <- the word exists in the contract;
+                                        no row on this page carries it
+    declined (declined)             6
+    invited (no reply yet)         15
+    not_yet_invited (no invite)    17   <- rows with NO rsvp on import:
+                                        17 attendee keys listed below. Their
+                                        import entries carry no payload.rsvp,
+                                        which is exactly how the Room fold
+                                        yields "uninvited".
+    ------------------------------ --
+    total                          57   19+0+6+15+17 = 57
+
+    not_yet_invited rows: att-0005 David Nguyen, att-0035 Andres Nair, att-0036 Ananya Zhao,
+    att-0039 Arjun Garcia, att-0040 Mila Khalil, att-0003 Daniel Park,
+    att-0043 Kavya Park, att-0044 Farah Smith, att-0045 Henrik Nguyen,
+    att-0013 Zainab Clark, att-0015 Diego Suzuki, att-0016 Jun Kowalski,
+    att-0021 Arjun Taylor, att-0023 Oliver Nair, att-0026 Isabela Nguyen,
+    att-0032 Aiko Abara, att-0033 Katarina Osei.
+
+    anchor hints (data-contact-email / data-contact-phone /
+    data-profile-linkedin, values from persons.json anchors with
+    context=ember-dinners): email 57 · phone 12 · linkedin 41.
+
+  Page states are the PLATFORM's words (approved / maybe / declined /
+  invited / not_yet_invited); the luma entry of the one-object contract in
+  read-page.ts maps them to the vault's own rsvp words. Attendee keys
+  (data-attendee-key) are the platform's stable ids — in this fixture they
+  echo the seed person numbers (p-0009 -> att-0009) for traceability only;
+  the organs never parse them back into person ids.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Ember Dinners #4 · Luma</title>
+  <style>
+    body { margin: 0; font-family: "Avenir Next", -apple-system, sans-serif;
+           background: #fdfcf9; color: #1b1b18; }
+    .lu-shell { max-width: 720px; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+    .lu-hero { display: grid; grid-template-columns: 96px 1fr; gap: 1.25rem; align-items: center; }
+    .lu-cover { width: 96px; height: 96px; border-radius: 12px;
+                background: linear-gradient(135deg, #e8613c, #f4a259); }
+    .lu-hero h1 { font-size: 1.75rem; margin: 0 0 .3rem; }
+    .lu-hero p { margin: .1rem 0; color: #6f6a5e; }
+    .lu-guests h2 { margin: 3rem 0 0; font-size: 1.1rem; }
+    .lu-tabs { display: flex; gap: .6rem; margin: .75rem 0 1.25rem; }
+    .lu-tabs span { font-size: .8rem; padding: .3rem .8rem; border-radius: 8px;
+                    background: #f1ede4; color: #6f6a5e; }
+    .lu-group h3 { font-size: .85rem; text-transform: none; color: #6f6a5e;
+                   margin: 1.75rem 0 .4rem; font-weight: 600; }
+    .lu-count { color: #b3ac9d; font-weight: 400; }
+    .lu-attendee { display: grid; grid-template-columns: 2.25rem 1fr auto;
+                   gap: .8rem; align-items: center; padding: .5rem .6rem;
+                   border-radius: 10px; }
+    .lu-attendee:nth-child(even) { background: #f8f5ee; }
+    .lu-avatar { width: 2.25rem; height: 2.25rem; border-radius: 50%;
+                 background: #e8613c22; color: #a34a2c; display: inline-flex;
+                 align-items: center; justify-content: center;
+                 font-size: .75rem; font-weight: 700; }
+    .lu-pill { font-size: .7rem; padding: .2rem .6rem; border-radius: 6px; }
+    .lu-pill-going { background: #e5f3e8; color: #256b3a; }
+    .lu-pill-notgoing { background: #f8e5e2; color: #9c3a2a; }
+    .lu-pill-invited { background: #f1ede4; color: #6f6a5e; }
+    .lu-pill-added { background: #fdfcf9; color: #b3ac9d; border: 1px dashed #d9d2c2; }
+  </style>
+</head>
+<body>
+  <div class="lu-shell" data-lu-event data-lu-title="Ember Dinners #4" data-lu-starts-at="2026-09-24T16:00:00.000Z">
+    <header class="lu-hero">
+      <div class="lu-cover" aria-hidden="true"></div>
+      <div>
+        <h1>Ember Dinners #4</h1>
+        <p>Thursday, September 24 · 9:00 AM PT</p>
+        <p>Hosted by Meera Vasan · San Francisco</p>
+      </div>
+    </header>
+    <section class="lu-guests">
+      <h2>Guests · 57</h2>
+      <div class="lu-tabs" aria-hidden="true">
+        <span>Going 19</span><span>Not Going 6</span><span>Invited 15</span><span>Not yet invited 17</span>
+      </div>
+      <section class="lu-group" data-group="approved">
+        <h3>Going <span class="lu-count">19</span></h3>
+        <div class="lu-attendee" data-attendee-key="att-0034" data-approval-status="approved" data-contact-email="karim.suzuki.20@example.net" data-profile-linkedin="https://linkedin.com/in/karim.suzuki-20">
+          <span class="lu-avatar" aria-hidden="true">KS</span>
+          <span class="lu-attendee-name">Karim Suzuki</span>
+          <span class="lu-pill lu-pill-going">Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0037" data-approval-status="approved" data-contact-email="freya.reyes.19@example.net" data-profile-linkedin="https://linkedin.com/in/freya.reyes-19">
+          <span class="lu-avatar" aria-hidden="true">FR</span>
+          <span class="lu-attendee-name">Freya Reyes</span>
+          <span class="lu-pill lu-pill-going">Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0041" data-approval-status="approved" data-contact-email="dmitri.clark.30@example.net" data-profile-linkedin="https://linkedin.com/in/dmitri.clark-30">
+          <span class="lu-avatar" aria-hidden="true">DC</span>
+          <span class="lu-attendee-name">Dmitri Clark</span>
+          <span class="lu-pill lu-pill-going">Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0004" data-approval-status="approved" data-contact-email="sarah.kim.3@example.net">
+          <span class="lu-avatar" aria-hidden="true">SK</span>
+          <span class="lu-attendee-name">Sarah Kim</span>
+          <span class="lu-pill lu-pill-going">Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0010" data-approval-status="approved" data-contact-email="freya.martinez.28@example.net" data-contact-phone="+15557000028">
+          <span class="lu-avatar" aria-hidden="true">FM</span>
+          <span class="lu-attendee-name">Freya Martinez</span>
+          <span class="lu-pill lu-pill-going">Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0008" data-approval-status="approved" data-contact-email="omar.hassan.7@example.net">
+          <span class="lu-avatar" aria-hidden="true">OH</span>
+          <span class="lu-attendee-name">Omar Hassan</span>
+          <span class="lu-pill lu-pill-going">Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0011" data-approval-status="approved" data-contact-email="tendai.nguyen.21@example.net" data-profile-linkedin="https://linkedin.com/in/tendai.nguyen-21">
+          <span class="lu-avatar" aria-hidden="true">TN</span>
+          <span class="lu-attendee-name">Tendai Nguyen</span>
+          <span class="lu-pill lu-pill-going">Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0014" data-approval-status="approved" data-contact-email="david.mensah.22@example.net" data-profile-linkedin="https://linkedin.com/in/david.mensah-22">
+          <span class="lu-avatar" aria-hidden="true">DM</span>
+          <span class="lu-attendee-name">David Mensah</span>
+          <span class="lu-pill lu-pill-going">Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0017" data-approval-status="approved" data-contact-email="sarah.khalil.25@example.net" data-contact-phone="+15557000025">
+          <span class="lu-avatar" aria-hidden="true">SK</span>
+          <span class="lu-attendee-name">Sarah Khalil</span>
+          <span class="lu-pill lu-pill-going">Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0019" data-approval-status="approved" data-contact-email="mila.anderson.11@example.net">
+          <span class="lu-avatar" aria-hidden="true">MA</span>
+          <span class="lu-attendee-name">Mila Anderson</span>
+          <span class="lu-pill lu-pill-going">Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0001" data-approval-status="approved" data-contact-email="nadia.osei.1@example.net">
+          <span class="lu-avatar" aria-hidden="true">NO</span>
+          <span class="lu-attendee-name">Nadia Osei</span>
+          <span class="lu-pill lu-pill-going">Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0025" data-approval-status="approved" data-contact-email="neha.martinez.14@example.net" data-profile-linkedin="https://linkedin.com/in/neha.martinez-14">
+          <span class="lu-avatar" aria-hidden="true">NM</span>
+          <span class="lu-attendee-name">Neha Martinez</span>
+          <span class="lu-pill lu-pill-going">Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0027" data-approval-status="approved" data-contact-email="emma.wang.44@example.net" data-profile-linkedin="https://linkedin.com/in/emma.wang-44">
+          <span class="lu-avatar" aria-hidden="true">EW</span>
+          <span class="lu-attendee-name">Emma Wang</span>
+          <span class="lu-pill lu-pill-going">Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0031" data-approval-status="approved" data-contact-email="mateo.wang.45@example.net" data-profile-linkedin="https://linkedin.com/in/mateo.wang-45">
+          <span class="lu-avatar" aria-hidden="true">MW</span>
+          <span class="lu-attendee-name">Mateo Wang</span>
+          <span class="lu-pill lu-pill-going">Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0046" data-approval-status="approved" data-contact-email="chidi.liang.46@example.net" data-profile-linkedin="https://linkedin.com/in/chidi.liang-46">
+          <span class="lu-avatar" aria-hidden="true">CL</span>
+          <span class="lu-attendee-name">Chidi Liang</span>
+          <span class="lu-pill lu-pill-going">Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0047" data-approval-status="approved" data-contact-email="mila.hassan.47@example.net" data-profile-linkedin="https://linkedin.com/in/mila.hassan-47">
+          <span class="lu-avatar" aria-hidden="true">MH</span>
+          <span class="lu-attendee-name">Mila Hassan</span>
+          <span class="lu-pill lu-pill-going">Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0048" data-approval-status="approved" data-contact-email="jisoo.hernandez.48@example.net" data-profile-linkedin="https://linkedin.com/in/jisoo.hernandez-48">
+          <span class="lu-avatar" aria-hidden="true">JH</span>
+          <span class="lu-attendee-name">Jisoo Hernandez</span>
+          <span class="lu-pill lu-pill-going">Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0049" data-approval-status="approved" data-contact-email="arjun.hernandez.49@example.net" data-profile-linkedin="https://linkedin.com/in/arjun.hernandez-49">
+          <span class="lu-avatar" aria-hidden="true">AH</span>
+          <span class="lu-attendee-name">Arjun Hernandez</span>
+          <span class="lu-pill lu-pill-going">Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0050" data-approval-status="approved" data-contact-email="claire.brown.50@example.net" data-contact-phone="+15557000050" data-profile-linkedin="https://linkedin.com/in/claire.brown-50">
+          <span class="lu-avatar" aria-hidden="true">CB</span>
+          <span class="lu-attendee-name">Claire Brown</span>
+          <span class="lu-pill lu-pill-going">Going</span>
+        </div>
+      </section>
+      <section class="lu-group" data-group="declined">
+        <h3>Not Going <span class="lu-count">6</span></h3>
+        <div class="lu-attendee" data-attendee-key="att-0007" data-approval-status="declined" data-contact-email="emily.zhang.6@example.net">
+          <span class="lu-avatar" aria-hidden="true">EZ</span>
+          <span class="lu-attendee-name">Emily Zhang</span>
+          <span class="lu-pill lu-pill-notgoing">Not Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0012" data-approval-status="declined" data-contact-email="amara.sharma.31@example.net" data-profile-linkedin="https://linkedin.com/in/amara.sharma-31">
+          <span class="lu-avatar" aria-hidden="true">AS</span>
+          <span class="lu-attendee-name">Amara Sharma</span>
+          <span class="lu-pill lu-pill-notgoing">Not Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0028" data-approval-status="declined" data-contact-email="emma.chen.17@example.net" data-profile-linkedin="https://linkedin.com/in/emma.chen-17">
+          <span class="lu-avatar" aria-hidden="true">EC</span>
+          <span class="lu-attendee-name">Emma Chen</span>
+          <span class="lu-pill lu-pill-notgoing">Not Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0030" data-approval-status="declined" data-contact-email="isabela.nair.32@example.net" data-profile-linkedin="https://linkedin.com/in/isabela.nair-32">
+          <span class="lu-avatar" aria-hidden="true">IN</span>
+          <span class="lu-attendee-name">Isabela Nair</span>
+          <span class="lu-pill lu-pill-notgoing">Not Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0051" data-approval-status="declined" data-contact-email="anders.johnson.51@example.net" data-contact-phone="+15557000051" data-profile-linkedin="https://linkedin.com/in/anders.johnson-51">
+          <span class="lu-avatar" aria-hidden="true">AJ</span>
+          <span class="lu-attendee-name">Anders Johnson</span>
+          <span class="lu-pill lu-pill-notgoing">Not Going</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0052" data-approval-status="declined" data-contact-email="emma.mensah.52@example.net" data-contact-phone="+15557000052" data-profile-linkedin="https://linkedin.com/in/emma.mensah-52">
+          <span class="lu-avatar" aria-hidden="true">EM</span>
+          <span class="lu-attendee-name">Emma Mensah</span>
+          <span class="lu-pill lu-pill-notgoing">Not Going</span>
+        </div>
+      </section>
+      <section class="lu-group" data-group="invited">
+        <h3>Invited <span class="lu-count">15</span></h3>
+        <div class="lu-attendee" data-attendee-key="att-0009" data-approval-status="invited" data-contact-email="ivan.hernandez.15@example.net" data-profile-linkedin="https://linkedin.com/in/ivan.hernandez-15">
+          <span class="lu-avatar" aria-hidden="true">IH</span>
+          <span class="lu-attendee-name">Ivan Hernandez</span>
+          <span class="lu-pill lu-pill-invited">Invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0038" data-approval-status="invited" data-contact-email="jun.iyer.36@example.net" data-profile-linkedin="https://linkedin.com/in/jun.iyer-36">
+          <span class="lu-avatar" aria-hidden="true">JI</span>
+          <span class="lu-attendee-name">Jun Iyer</span>
+          <span class="lu-pill lu-pill-invited">Invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0042" data-approval-status="invited" data-contact-email="tariq.gupta.23@example.net" data-profile-linkedin="https://linkedin.com/in/tariq.gupta-23">
+          <span class="lu-avatar" aria-hidden="true">TG</span>
+          <span class="lu-attendee-name">Tariq Gupta</span>
+          <span class="lu-pill lu-pill-invited">Invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0002" data-approval-status="invited" data-contact-email="marcus.liang.16@example.net" data-profile-linkedin="https://linkedin.com/in/marcus.liang-16">
+          <span class="lu-avatar" aria-hidden="true">ML</span>
+          <span class="lu-attendee-name">Marcus Liang</span>
+          <span class="lu-pill lu-pill-invited">Invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0018" data-approval-status="invited" data-contact-email="mei.park.24@example.net" data-profile-linkedin="https://linkedin.com/in/mei.park-24">
+          <span class="lu-avatar" aria-hidden="true">MP</span>
+          <span class="lu-attendee-name">Mei Park</span>
+          <span class="lu-pill lu-pill-invited">Invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0020" data-approval-status="invited" data-contact-email="pavel.hernandez.34@example.net" data-profile-linkedin="https://linkedin.com/in/pavel.hernandez-34">
+          <span class="lu-avatar" aria-hidden="true">PH</span>
+          <span class="lu-attendee-name">Pavel Hernandez</span>
+          <span class="lu-pill lu-pill-invited">Invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0022" data-approval-status="invited" data-contact-email="sarah.torres.9@example.net">
+          <span class="lu-avatar" aria-hidden="true">ST</span>
+          <span class="lu-attendee-name">Sarah Torres</span>
+          <span class="lu-pill lu-pill-invited">Invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0024" data-approval-status="invited" data-contact-email="daehyun.iyer.41@example.net" data-profile-linkedin="https://linkedin.com/in/daehyun.iyer-41">
+          <span class="lu-avatar" aria-hidden="true">DI</span>
+          <span class="lu-attendee-name">Daehyun Iyer</span>
+          <span class="lu-pill lu-pill-invited">Invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0006" data-approval-status="invited" data-contact-email="priya.patel.5@example.net">
+          <span class="lu-avatar" aria-hidden="true">PP</span>
+          <span class="lu-attendee-name">Priya Patel</span>
+          <span class="lu-pill lu-pill-invited">Invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0029" data-approval-status="invited" data-contact-email="amara.nguyen.43@example.net" data-profile-linkedin="https://linkedin.com/in/amara.nguyen-43">
+          <span class="lu-avatar" aria-hidden="true">AN</span>
+          <span class="lu-attendee-name">Amara Nguyen</span>
+          <span class="lu-pill lu-pill-invited">Invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0053" data-approval-status="invited" data-contact-email="jun.nkomo.53@example.net" data-contact-phone="+15557000053" data-profile-linkedin="https://linkedin.com/in/jun.nkomo-53">
+          <span class="lu-avatar" aria-hidden="true">JN</span>
+          <span class="lu-attendee-name">Jun Nkomo</span>
+          <span class="lu-pill lu-pill-invited">Invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0054" data-approval-status="invited" data-contact-email="james.vasan.54@example.net" data-contact-phone="+15557000054" data-profile-linkedin="https://linkedin.com/in/james.vasan-54">
+          <span class="lu-avatar" aria-hidden="true">JV</span>
+          <span class="lu-attendee-name">James Vasan</span>
+          <span class="lu-pill lu-pill-invited">Invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0055" data-approval-status="invited" data-contact-email="layla.martinez.55@example.net" data-contact-phone="+15557000055" data-profile-linkedin="https://linkedin.com/in/layla.martinez-55">
+          <span class="lu-avatar" aria-hidden="true">LM</span>
+          <span class="lu-attendee-name">Layla Martinez</span>
+          <span class="lu-pill lu-pill-invited">Invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0056" data-approval-status="invited" data-contact-email="amara.nair.56@example.net" data-contact-phone="+15557000056" data-profile-linkedin="https://linkedin.com/in/amara.nair-56">
+          <span class="lu-avatar" aria-hidden="true">AN</span>
+          <span class="lu-attendee-name">Amara Nair</span>
+          <span class="lu-pill lu-pill-invited">Invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0057" data-approval-status="invited" data-contact-email="elena.bergstrom.57@example.net" data-contact-phone="+15557000057" data-profile-linkedin="https://linkedin.com/in/elena.bergstrom-57">
+          <span class="lu-avatar" aria-hidden="true">EB</span>
+          <span class="lu-attendee-name">Elena Bergstrom</span>
+          <span class="lu-pill lu-pill-invited">Invited</span>
+        </div>
+      </section>
+      <section class="lu-group" data-group="not_yet_invited">
+        <h3>Added — invite not sent <span class="lu-count">17</span></h3>
+        <div class="lu-attendee" data-attendee-key="att-0005" data-approval-status="not_yet_invited" data-contact-email="david.nguyen.4@example.net">
+          <span class="lu-avatar" aria-hidden="true">DN</span>
+          <span class="lu-attendee-name">David Nguyen</span>
+          <span class="lu-pill lu-pill-added">Not yet invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0035" data-approval-status="not_yet_invited" data-contact-email="andres.nair.35@example.net" data-profile-linkedin="https://linkedin.com/in/andres.nair-35">
+          <span class="lu-avatar" aria-hidden="true">AN</span>
+          <span class="lu-attendee-name">Andres Nair</span>
+          <span class="lu-pill lu-pill-added">Not yet invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0036" data-approval-status="not_yet_invited" data-contact-email="ananya.zhao.13@example.net" data-profile-linkedin="https://linkedin.com/in/ananya.zhao-13">
+          <span class="lu-avatar" aria-hidden="true">AZ</span>
+          <span class="lu-attendee-name">Ananya Zhao</span>
+          <span class="lu-pill lu-pill-added">Not yet invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0039" data-approval-status="not_yet_invited" data-contact-email="arjun.garcia.27@example.net" data-contact-phone="+15557000027">
+          <span class="lu-avatar" aria-hidden="true">AG</span>
+          <span class="lu-attendee-name">Arjun Garcia</span>
+          <span class="lu-pill lu-pill-added">Not yet invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0040" data-approval-status="not_yet_invited" data-contact-email="mila.khalil.18@example.net" data-profile-linkedin="https://linkedin.com/in/mila.khalil-18">
+          <span class="lu-avatar" aria-hidden="true">MK</span>
+          <span class="lu-attendee-name">Mila Khalil</span>
+          <span class="lu-pill lu-pill-added">Not yet invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0003" data-approval-status="not_yet_invited" data-contact-email="daniel.park.2@example.net">
+          <span class="lu-avatar" aria-hidden="true">DP</span>
+          <span class="lu-attendee-name">Daniel Park</span>
+          <span class="lu-pill lu-pill-added">Not yet invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0043" data-approval-status="not_yet_invited" data-contact-email="kavya.park.39@example.net" data-profile-linkedin="https://linkedin.com/in/kavya.park-39">
+          <span class="lu-avatar" aria-hidden="true">KP</span>
+          <span class="lu-attendee-name">Kavya Park</span>
+          <span class="lu-pill lu-pill-added">Not yet invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0044" data-approval-status="not_yet_invited" data-contact-email="farah.smith.12@example.net">
+          <span class="lu-avatar" aria-hidden="true">FS</span>
+          <span class="lu-attendee-name">Farah Smith</span>
+          <span class="lu-pill lu-pill-added">Not yet invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0045" data-approval-status="not_yet_invited" data-contact-email="henrik.nguyen.8@example.net">
+          <span class="lu-avatar" aria-hidden="true">HN</span>
+          <span class="lu-attendee-name">Henrik Nguyen</span>
+          <span class="lu-pill lu-pill-added">Not yet invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0013" data-approval-status="not_yet_invited" data-contact-email="zainab.clark.38@example.net" data-profile-linkedin="https://linkedin.com/in/zainab.clark-38">
+          <span class="lu-avatar" aria-hidden="true">ZC</span>
+          <span class="lu-attendee-name">Zainab Clark</span>
+          <span class="lu-pill lu-pill-added">Not yet invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0015" data-approval-status="not_yet_invited" data-contact-email="diego.suzuki.37@example.net" data-profile-linkedin="https://linkedin.com/in/diego.suzuki-37">
+          <span class="lu-avatar" aria-hidden="true">DS</span>
+          <span class="lu-attendee-name">Diego Suzuki</span>
+          <span class="lu-pill lu-pill-added">Not yet invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0016" data-approval-status="not_yet_invited" data-contact-email="jun.kowalski.26@example.net" data-contact-phone="+15557000026">
+          <span class="lu-avatar" aria-hidden="true">JK</span>
+          <span class="lu-attendee-name">Jun Kowalski</span>
+          <span class="lu-pill lu-pill-added">Not yet invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0021" data-approval-status="not_yet_invited" data-contact-email="arjun.taylor.29@example.net" data-profile-linkedin="https://linkedin.com/in/arjun.taylor-29">
+          <span class="lu-avatar" aria-hidden="true">AT</span>
+          <span class="lu-attendee-name">Arjun Taylor</span>
+          <span class="lu-pill lu-pill-added">Not yet invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0023" data-approval-status="not_yet_invited" data-contact-email="oliver.nair.42@example.net" data-profile-linkedin="https://linkedin.com/in/oliver.nair-42">
+          <span class="lu-avatar" aria-hidden="true">ON</span>
+          <span class="lu-attendee-name">Oliver Nair</span>
+          <span class="lu-pill lu-pill-added">Not yet invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0026" data-approval-status="not_yet_invited" data-contact-email="isabela.nguyen.10@example.net">
+          <span class="lu-avatar" aria-hidden="true">IN</span>
+          <span class="lu-attendee-name">Isabela Nguyen</span>
+          <span class="lu-pill lu-pill-added">Not yet invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0032" data-approval-status="not_yet_invited" data-contact-email="aiko.abara.33@example.net" data-profile-linkedin="https://linkedin.com/in/aiko.abara-33">
+          <span class="lu-avatar" aria-hidden="true">AA</span>
+          <span class="lu-attendee-name">Aiko Abara</span>
+          <span class="lu-pill lu-pill-added">Not yet invited</span>
+        </div>
+        <div class="lu-attendee" data-attendee-key="att-0033" data-approval-status="not_yet_invited" data-contact-email="katarina.osei.40@example.net" data-profile-linkedin="https://linkedin.com/in/katarina.osei-40">
+          <span class="lu-avatar" aria-hidden="true">KO</span>
+          <span class="lu-attendee-name">Katarina Osei</span>
+          <span class="lu-pill lu-pill-added">Not yet invited</span>
+        </div>
+      </section>
+    </section>
+  </div>
+</body>
+</html>

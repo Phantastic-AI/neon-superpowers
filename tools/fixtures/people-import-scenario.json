@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "platform": "luma",
+  "accountId": "mock-luma-3cs-host",
+  "worldName": "3Cs",
+  "viewId": "luma-history",
+  "viewName": "Luma history",
+  "sources": [
+    {
+      "eventId": "3cs-2026-07-12",
+      "name": "3Cs Summer Table",
+      "date": "2026-07-12",
+      "filename": "3cs-summer-table.csv",
+      "sha256": "79fcd412d23a6f4df5e4c0620b2a1c7070bf5f2eba3b2ff02a722b445f5b70f0",
+      "rows": 4
+    },
+    {
+      "eventId": "3cs-2026-08-09",
+      "name": "3Cs Late Summer Table",
+      "date": "2026-08-09",
+      "filename": "guestlist-export",
+      "sha256": "17468a7835bf7a8fe8f70ae352b86297b077665722fb7acdce0b0fa652ca7f74",
+      "rows": 4
+    }
+  ],
+  "expected": {
+    "coverage": {
+      "selected": 2,
+      "read": 2,
+      "complete": true
+    },
+    "people": 6,
+    "unresolved": 2,
+    "sourceMemberships": 8,
+    "recurringVerified": [
+      "Nina Patel"
+    ],
+    "sameNameDifferentIdentities": [
+      "Jordan Lee"
+    ]
+  }
+}
