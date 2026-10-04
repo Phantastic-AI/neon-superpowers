@@ -1,0 +1,58 @@
+# Secrets and machine-specific configuration
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+secrets/
+
+# Personal and local agent data
+data/
+local-data/
+.data/
+.local/
+*.sqlite
+*.sqlite3
+*.db
+*.db-*
+*.sqlite-*
+*.sqlite3-*
+backups/
+
+# Browser profiles and sessions
+browser-profiles/
+browser-profile/
+playwright/.auth/
+.auth/
+user-data-dir/
+
+# Dependencies, builds, caches, and test output
+node_modules/
+.pnp.*
+dist/
+build/
+.next/
+out/
+coverage/
+.cache/
+.turbo/
+playwright-report/
+test-results/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.log
+
+# Local agent tooling and editor files
+.omx/
+.codex/
+.claude/
+.DS_Store
+.idea/
+.vscode/
+*.swp
