@@ -12,7 +12,7 @@ import { loadVaultWorld, resolveVaultDir } from '../vault.js';
 import { handlePeopleApi } from '../people-api.js';
 import { ApprovalLedger } from './ledger.ts';
 import { LaunchState } from './state.ts';
-import { controlledRecipient, createNeonCapabilities, enrichmentRunner, localPeople, NEON_INSTRUCTIONS, validateInvitation } from './capabilities.ts';
+import { controlledRecipient, createNeonCapabilities, enrichmentRunner, localPeople, NEON_CORE_INSTRUCTIONS, NEON_CORE_TOOL_IDS, validateInvitation } from './capabilities.ts';
 
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'../..');
 const BODY_LIMIT=128*1024;
@@ -66,7 +66,7 @@ export function createNeonService(options:NeonServiceOptions) {
   checkReady();const config=modelConfig(env);if(!config)reject(503,'provider_not_configured','Configure the model gateway before starting a conversation.');
   runtimePromise??=(async()=>{
    const factory=options.runtimeFactory??(await import('../../integrations/agent/index.ts')).createLocalNeonAgentRuntime;
-   return factory({config:config!,tools:createNeonCapabilities({world,ledger,state,directory,env,connectors,ready,vaultDirectory:options.vaultDirectory??(options.world?undefined:resolveVaultDir()),enrich:enrichmentRunner(ROOT,env,directory)}),instructions:NEON_INSTRUCTIONS,resourceId,dataDirectory});
+   return factory({config:config!,tools:createNeonCapabilities({world,ledger,state,directory,env,connectors,ready,vaultDirectory:options.vaultDirectory??(options.world?undefined:resolveVaultDir()),enrich:enrichmentRunner(ROOT,env,directory)}).filter(tool=>NEON_CORE_TOOL_IDS.has(tool.id)),instructions:NEON_CORE_INSTRUCTIONS,resourceId,dataDirectory});
   })();
   try{return await runtimePromise;}catch{runtimePromise=undefined;return reject(503,'runtime_unavailable','The local agent could not be initialized.');}
  };

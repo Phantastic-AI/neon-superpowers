@@ -2,7 +2,7 @@
 
 A local-first personal agent built on the existing Superpowers people workspace. Lois works beside saved Worlds, source records, ordered people lists and yellow Post-its. This hackathon edition adds a Mastra conversation through AG-UI and Assistant UI, plus bounded sponsor integrations.
 
-The app source is present. Offline adapter and integration tests exist; live provider calls and the complete browser demo still need verified evidence. Credential presence alone does not establish a working integration.
+The first release preserves Worlds and Post-its with a working Neon/Mastra conversation through AG-UI and Assistant UI. A live HTTP run read synthetic source records, set a goal and saved a two-person shortlist; its transcript, shortlist and a Post-it survived a sidecar restart. Browser click-through acceptance remains unverified. Other sponsor adapters are optional and deferred.
 
 ## Run locally
 
@@ -16,7 +16,7 @@ NEON_VAULT_DIRECTORY=.local/demo-vault pnpm app:neon
 
 Open [the local app](http://localhost:5299/neon). The Neon sidecar listens on loopback port 5275; the inherited Lois sidecar uses 5276. The face uses strict port 5299. Stop an existing instance before starting another.
 
-Without credentials, you can inspect synthetic local records and run offline checks. Model conversation, OAuth and sponsor actions require server configuration and the explicit keys-ready gate described in [Credentials](docs/CREDENTIALS.md). Keep keys in ignored `.env.local`; never put them in browser variables. Read [the demo guide](docs/DEMO.md) before enabling live calls. `seed:neon` creates two saved synthetic World people views in the ignored `.local/demo-vault`; the generic `seed` command remains available for inherited fixture checks.
+Without credentials, you can inspect synthetic local records and run offline checks. Core conversation needs only the Neon gateway URL, token and model. Optional OAuth and sponsor actions require their separate configuration and the explicit keys-ready gate described in [Credentials](docs/CREDENTIALS.md). Keep keys in ignored `.env.local`; never put them in browser variables. Read [the demo guide](docs/DEMO.md) before enabling live calls. `seed:neon` creates two saved synthetic World people views in the ignored `.local/demo-vault`; the generic `seed` command remains available for inherited fixture checks.
 
 ```sh
 pnpm typecheck
@@ -33,7 +33,7 @@ The connector package has its own native Node tests; see [connector verification
 
 - Saved World people views use the inherited ordering, source disclosures, Post-its, immutable note waves and All comments workflow.
 - The same conversation can inspect a saved note wave, save order changes and reply to stable note IDs.
-- Calendar and mail reads are scoped to a configured personal account. Invitations are prepared for one controlled demo recipient, edited in the app and dispatched through an exact-payload approval ledger.
+- Optional calendar and mail reads are scoped to a configured personal account. Invitations are prepared for one controlled demo recipient, edited in the app and dispatched through an exact-payload approval ledger.
 - AgentMail can read an agent-owned inbox and actual received replies.
 - Optional research, guest CSV computation and selected event sharing use bounded adapters with sponsor receipts. See [sponsor status](docs/SPONSORS.md) for verification limits.
 

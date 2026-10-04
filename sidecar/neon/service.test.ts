@@ -27,7 +27,7 @@ const env={NEON_DEMO_RECIPIENT:'controlled@example.test',NEON_AI_GATEWAY_TOKEN:'
 async function fixture({ready=true,uncertain=false,inbox='fixture-inbox'}={}){
  const source=vaultFixture(),send=vi.fn(async(_inboxId:string,_payload:{to:string[];subject:string;text:string})=>{if(uncertain)throw new Error('private-key-provider-error');return {messageId:'fixture-receipt'};});
  const connectorsFactory=vi.fn(async({userId,approval,env:connectorEnv}:Parameters<NonNullable<Parameters<typeof createNeonService>[0]['connectorsFactory']>>[0])=>createConnectors({userId,approval,agentMailInboxId:connectorEnv.AGENTMAIL_INBOX_ID,agentMailProvisioningAccountId:'agentmail-key:'+createHash('sha256').update(env.AGENTMAIL_API_KEY).digest('hex'),agentmail:{getInbox:async()=>({inboxId:'fixture-inbox'}),listMessages:async()=>({messages:[{messageId:'reply',from:'controlled@example.test',to:['agent@example.test'],text:'Fixture reply',subject:'Re: invite'}]}),getMessage:async()=>({messageId:'reply',text:'Fixture reply'}),sendMessage:send,createInbox:async()=>({inboxId:'created'})}}));
- const runtimeFactory=vi.fn(async()=>({pending:async()=>[],cancel:()=>false,handleRun:async()=>new Response('data: {"type":"RUN_FINISHED"}\n\n',{headers:{'Content-Type':'text/event-stream'}})}));
+ const runtimeFactory=vi.fn(async(_options:Parameters<NonNullable<Parameters<typeof createNeonService>[0]['runtimeFactory']>>[0])=>({pending:async()=>[],cancel:()=>false,handleRun:async()=>new Response('data: {"type":"RUN_FINISHED"}\n\n',{headers:{'Content-Type':'text/event-stream'}})}));
  const options={...source,env:{...env,AGENTMAIL_INBOX_ID:inbox},ready:()=>ready,connectorsFactory,runtimeFactory};
  const service=createNeonService(options);servers.push(service);service.listen(0,'127.0.0.1');await once(service,'listening');
  const port=(service.address() as {port:number}).port;
@@ -76,13 +76,18 @@ describe('Neon loopback service with actual approval ledger and local connector 
  it('exposes native approval tools and leaves invitation dispatch unavailable to the model',async()=>{
   const f=await fixture();for(const id of ['enrich_person','research_page','normalize_csv','discover_research_tools','execute_research_tool','share_event_snapshot'])expect(f.service.neon.capabilities().find(t=>t.id===id)?.requiresApproval).toBe(true);
   const stream=await f.call('/agent',{threadId:'fixture-thread'});expect(stream.headers.get('content-type')).toBe('text/event-stream');expect(await stream.text()).toContain('RUN_FINISHED');expect(f.runtimeFactory).toHaveBeenCalledOnce();expect(f.send).not.toHaveBeenCalled();
+  const {NEON_CORE_TOOL_IDS}=await import('./capabilities.ts');const runtimeOptions=f.runtimeFactory.mock.calls[0]?.[0] as unknown as {tools:{id:string}[];instructions:string};expect(new Set(runtimeOptions.tools.map(t=>t.id))).toEqual(NEON_CORE_TOOL_IDS);expect(runtimeOptions.instructions).toContain('external research, inbox and sending capabilities are not enabled');
  });
  it('preserves the actual post-it workspace order, note snapshots, replies and wave completion',async()=>{
   const f=await fixture();const scope={contextId:'W',viewId:'people'};
   expect(await (await f.call('/people-workspace')).json()).toMatchObject({ok:true,views:[{contextId:'W',viewId:'people'}]});
   const save=await f.call('/people-workspace/note',{...scope,requestId:'note',noteId:'n1',personId:f.ids[0],text:'Move me below Riley',state:'draft',baseRevision:0});expect(save.status).toBe(200);
   const wave=await (await f.call('/people-workspace/waves',{...scope,requestId:'wave',noteIds:['n1']})).json();const waveId=wave.result.waveId;
-  const read=await f.execute('people_read',{...scope,waveId});expect(read).toMatchObject({ok:true,wave:{notes:[{noteId:'n1',text:'Move me below Riley'}]}});
+  const read=await f.execute('people_read',{...scope,waveId,includeEvidence:true});
+  await f.execute('set_goal',{text:'Choose two from the actual saved roster'});const roster=await f.execute('people_read',{...scope,includeEvidence:true}) as {people:{personId:string;memberships:{sourceId:string}[]}[]};
+  expect(await f.execute('set_shortlist',{contextId:scope.contextId,people:roster.people.map(p=>({personId:p.personId,rationale:'Present in the existing roster',sources:[p.memberships[0].sourceId]}))})).toMatchObject({shortlist:expect.any(Array)});
+  await expect(f.execute('set_shortlist',{contextId:scope.contextId,people:[{personId:roster.people[0].personId,rationale:'Unverified source',sources:['invented-source-id']}]})).rejects.toThrow('does not belong');
+  expect(read).toMatchObject({ok:true,wave:{notes:[{noteId:'n1',text:'Move me below Riley'}]}});
   expect(await f.execute('people_finish_notes',{...scope,waveId,status:'completed',requestId:'premature'})).toMatchObject({ok:false,unansweredNoteIds:['n1']});
   expect(await f.execute('people_order',{...scope,waveId,personIds:[f.ids[1],f.ids[0]],baseRevision:0,requestId:'reorder'})).toMatchObject({ok:true});
   expect(await f.execute('people_reply',{...scope,waveId,noteId:'r1',replyTo:'n1',personId:f.ids[0],text:'Saved the requested order',baseRevision:0,requestId:'reply'})).toMatchObject({ok:true});

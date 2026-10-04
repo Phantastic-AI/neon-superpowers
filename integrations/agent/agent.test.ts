@@ -10,11 +10,12 @@ const body=(runId:string,resume?:unknown)=>({threadId:'actual-thread',runId,mess
 const request=(runId:string,resume?:unknown)=>new Request('http://localhost/agent',{method:'POST',body:JSON.stringify(body(runId,resume))});
 async function events(response:Response) {assert.equal(response.status,200);return (await response.text()).split('\n\n').filter(Boolean).map(line=>JSON.parse(line.replace(/^data: /,'')));}
 
-function fixtureGateway(toolCount=1) {
+function fixtureGateway(toolCount=1,model='fixture-model') {
  const originalFetch=globalThis.fetch;let calls=0;
  globalThis.fetch=async(url,options)=>{
   assert.equal(String(url),'https://fixture.ai.neon.tech/v1/chat/completions');
-  const input=JSON.parse(options!.body as string);assert.equal(input.model,'fixture-model');calls++;
+  const input=JSON.parse(options!.body as string);assert.equal(input.model,model);calls++;
+  if(model==='gpt-5-6-luna' && input.tools?.length)assert.equal(input.reasoning_effort,'none','Neon Chat Completions requires explicit reasoning_effort none with function tools');
   const hasResult=input.messages.some((m:{role:string})=>m.role==='tool');
   const data=hasResult?[
    {id:'completion-2',object:'chat.completion.chunk',created:1,model:'fixture-model',choices:[{index:0,delta:{role:'assistant',content:'Fixture continuation complete'},finish_reason:null}]},
@@ -100,4 +101,12 @@ test('native two-tool turn exposes approvals sequentially and rejects the second
   assert.ok((await second.snapshot('actual-thread')).messages.some(m=>m.role==='tool'));
   await second.mastra.getStorage()?.close();
  } finally {gateway.restore();await rm(directory,{recursive:true,force:true});}
+});
+
+ test('Neon Luna sends exact reasoning_effort none on the native tool request wire',async()=>{
+ const directory=await mkdtemp(join(tmpdir(),'neon-luna-tools-'));const gateway=fixtureGateway(1,'gpt-5-6-luna');let executions=0;
+ try {
+  const runtime=await createLocalNeonAgentRuntime({config:{apiKey:'fixture-no-key',baseURL:'https://fixture.ai.neon.tech',model:'gpt-5-6-luna'},dataDirectory:directory,resourceId:'local-owner',instructions:'Use originalCapability.',tools:[{id:'originalCapability',description:'Local fixture',inputSchema:z.object({goalId:z.string()}),requiresApproval:false,async execute(){executions++;return {saved:true};}}]});
+  try {const stream=await events(await runtime.handleRun(request('luna-tools')));assert.equal(stream.at(-1).type,'RUN_FINISHED',JSON.stringify(stream));assert.equal(executions,1);assert.equal(gateway.calls,2);}finally{await runtime.mastra.getStorage()?.close();}
+ }finally{gateway.restore();await rm(directory,{recursive:true,force:true});}
 });

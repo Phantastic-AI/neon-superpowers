@@ -34,7 +34,9 @@ local use. Provider credentials and a valid model are still required for live
 inference. CodeRabbit uses its GitHub App installation rather than an environment
 variable here.
 
-## Mail and calendar
+The first release needs only the three Neon inference settings above and the local readiness gate. Goldfish, mail/calendar and other sponsor credentials are optional; they do not block the core people workflow.
+
+## Optional mail and calendar
 
 | Name | Type | Requirement |
 | --- | --- | --- |
@@ -80,7 +82,7 @@ invented `.invalid` recipient and a local delivery transport. Its full journey,
 sponsor and comprehension results deliberately remain unverified. Actual live
 acceptance needs the controlled send/receipt/reply, persisted conversation and
 people workspace, sponsor operation IDs with usage/cost evidence, and independent
-whole-page PNG reads. No live checks have been run by this slice.
+whole-page PNG reads. The live core HTTP workflow completed five local tools and saved a two-person synthetic shortlist. Eight conversation messages, the shortlist and an inherited Post-it persisted across sidecar restart. This proves the core workflow, not controlled send/reply, browser clicks or Goldfish; see [sponsor evidence](SPONSORS.md).
 
 After an actual whole-page capture and explicit readiness, run:
 

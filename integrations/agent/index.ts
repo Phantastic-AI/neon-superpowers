@@ -66,7 +66,7 @@ export function createNeonAgentRuntime(options:NeonAgentOptions) {
  const tools=createCapabilityTools(options.tools);
  const agent=new Agent({id:'neon-superpowers',name:'Superpowers',instructions:options.instructions,
   model:{providerId:'neon',modelId:options.config.model,url:options.config.baseURL.replace(/\/$/,'')+'/v1',apiKey:options.config.apiKey,api:'chat'},
-  tools,memory:new Memory({storage:options.storage,options:{lastMessages:40}}),defaultOptions:{maxSteps:8}});
+  tools,memory:new Memory({storage:options.storage,options:{lastMessages:40}}),defaultOptions:{maxSteps:8,...(options.config.model==='gpt-5-6-luna'?{providerOptions:{neon:{reasoningEffort:'none'}}}:{})}});
  const mastra=new Mastra({agents:{superpowers:agent},storage:options.storage});
  const handler=createRunHandler({resourceId:options.resourceId,threads:options.threads,createBridge:()=>new MastraAgent({agent:adaptMastraForAgUi(agent),resourceId:options.resourceId,emitInterruptOutcome:true,streamServerToolCalls:true})});
  return {...handler,agent,mastra};
