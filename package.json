@@ -1,0 +1,52 @@
+{
+  "name": "neon-superpowers",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "pnpm -r build",
+    "test": "pnpm test:workspace && pnpm test:app && pnpm test:verification",
+    "typecheck": "pnpm -r typecheck && pnpm typecheck:service",
+    "seed": "tsx tools/seed-world/generate.ts",
+    "seed:check": "tsx tools/seed-world/check.ts",
+    "lois": "tsx sidecar/server.ts",
+    "vault:snapshot": "node --import tsx tools/vault-snapshot.ts",
+    "app:cold": "tsx tools/lois-cold-app.ts",
+    "app:live": "tsx tools/lois-live-app.ts",
+    "smoke:3cs:capability": "tsx tools/lois-capability-smoke.ts",
+    "smoke:3cs:paid": "tsx tools/lois-paid-smoke.ts",
+    "smoke:3cs:app": "tsx tools/lois-paid-app.ts",
+    "smoke:3cs:visual": "tsx tools/lois-visual-goldfish-smoke.ts",
+    "app": "concurrently -k -n lois,face -c magenta,cyan \"tsx sidecar/server.ts\" \"pnpm --filter @browser-operator/face dev\"",
+    "neon": "node --env-file-if-exists=.env.local --import ./tools/neon-launch-preload.mjs --import tsx sidecar/neon/server.ts",
+    "app:neon": "node --env-file-if-exists=.env.local --import ./tools/neon-launch-preload.mjs node_modules/concurrently/dist/bin/index.js -k -n neon,lois,face \"pnpm neon\" \"LOIS_PORT=5276 node --import tsx sidecar/server.ts\" \"pnpm --filter @browser-operator/face dev\"",
+    "test:neon": "vitest run sidecar/neon",
+    "test:workspace": "pnpm -r test",
+    "test:app": "vitest run apps/face/src sidecar tools/projections tools/neon-seed.test.ts packages/vault",
+    "test:verification": "node --test verification/*.test.mjs",
+    "typecheck:service": "tsc --noEmit --strict --target es2022 --module esnext --moduleResolution bundler --skipLibCheck --allowImportingTsExtensions sidecar/neon/server.ts",
+    "seed:neon": "node --import tsx tools/neon-seed.ts"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.0.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/chrome": "^0.0.326",
+    "@types/node": "^22.15.21",
+    "@vitejs/plugin-react": "^4.5.0",
+    "concurrently": "^10.0.5",
+    "jsdom": "^26.1.0",
+    "playwright-core": "^1.62.1",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "vitest": "^3.1.4"
+  },
+  "dependencies": {
+    "zod": "3.25.76"
+  },
+  "engines": {
+    "node": ">=26.10.0"
+  }
+}

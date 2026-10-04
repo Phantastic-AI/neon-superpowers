@@ -1,0 +1,23 @@
+import { afterEach, describe, expect, it } from 'vitest';
+import { mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { ApprovalLedger } from './ledger.js';
+const dirs:string[]=[];
+const setup=()=>{const p=mkdtempSync(join(tmpdir(),'neon-ledger-')); dirs.push(p);return p;};
+afterEach(()=>dirs.splice(0).forEach(p=>rmSync(p,{recursive:true,force:true})));
+const payload={provider:'agentmail',account:'demo-inbox',to:'controlled@example.test',subject:'Dinner',body:'Join us?'};
+describe('durable exact-payload approval',()=>{
+ it('rejects absent approval without dispatch',async()=>{let calls=0;const l=new ApprovalLedger(setup());await expect(l.run(payload,{approvalId:'invented',idempotencyKey:'k'},async()=>{calls++;return {id:'sent'}})).rejects.toThrow();expect(calls).toBe(0)});
+ it('binds approval to reviewed content and account',async()=>{const l=new ApprovalLedger(setup());const p=l.prepare(payload);const a=l.approve(p.id,p.hash);await expect(l.run({...payload,body:'Changed'}, {approvalId:a.id,idempotencyKey:'k'},async()=>({id:'sent'}))).rejects.toThrow(/payload/);await expect(l.run({...payload,account:'other'}, {approvalId:a.id,idempotencyKey:'k'},async()=>({id:'sent'}))).rejects.toThrow(/payload/)});
+ it('rejects a stale review hash',()=>{const l=new ApprovalLedger(setup());const p=l.prepare(payload);expect(()=>l.approve(p.id,'old')).toThrow(/changed/)});
+ it('returns persisted receipt on retry across restart without sending again',async()=>{const dir=setup();let calls=0;let l=new ApprovalLedger(dir);const p=l.prepare(payload);const a=l.approve(p.id,p.hash);const auth={approvalId:a.id,idempotencyKey:'one'};const send=async()=>{calls++;return {id:'receipt'}};expect(await l.run(payload,auth,send)).toEqual({id:'receipt'});l=new ApprovalLedger(dir);expect(await l.run(payload,auth,send)).toEqual({id:'receipt'});expect(calls).toBe(1)});
+ it('cannot reuse consumed approval with a different operation key',async()=>{const l=new ApprovalLedger(setup());const p=l.prepare(payload);const a=l.approve(p.id,p.hash);await l.run(payload,{approvalId:a.id,idempotencyKey:'one'},async()=>({id:'sent'}));await expect(l.run(payload,{approvalId:a.id,idempotencyKey:'two'},async()=>({id:'bad'}))).rejects.toThrow(/consumed/)});
+ it('holds unknown outcomes after restart',async()=>{const dir=setup();let l=new ApprovalLedger(dir);const p=l.prepare(payload);const a=l.approve(p.id,p.hash);const auth={approvalId:a.id,idempotencyKey:'k'};await expect(l.run(payload,auth,async()=>{throw Error('connection lost')})).rejects.toThrow();l=new ApprovalLedger(dir);let calls=0;await expect(l.run(payload,auth,async()=>{calls++;return {id:'bad'}})).rejects.toThrow(/uncertain/);expect(calls).toBe(0)});
+ it('reserves before awaiting provider and rejects concurrent duplicate',async()=>{const l=new ApprovalLedger(setup());const p=l.prepare(payload);const a=l.approve(p.id,p.hash);const auth={approvalId:a.id,idempotencyKey:'k'};let release!:(v:unknown)=>void;const first=l.run(payload,auth,()=>new Promise(r=>release=r));await expect(l.run(payload,auth,async()=>({id:'bad'}))).rejects.toThrow(/uncertain/);release({id:'ok'});await first});
+});
+
+it('rejects prototype draft IDs and exotic receipts without marking complete',async()=>{const l=new ApprovalLedger(setup());expect(()=>l.approve('__proto__',undefined as unknown as string)).toThrow();expect(Object.hasOwn(Object.prototype,'approvalId')).toBe(false);const p=l.prepare(payload);const a=l.approve(p.id,p.hash);class Exotic{toJSON(){return undefined;}}await expect(l.run(payload,{approvalId:a.id,idempotencyKey:'k'},async()=>new Exotic())).rejects.toThrow(/plain JSON/);expect(Object.values(l.inspect().operations)[0].state).toBe('uncertain');});
+
+it('editing revokes an earlier approval and requires review of the new payload',async()=>{const l=new ApprovalLedger(setup());const p=l.prepare(payload);const a=l.approve(p.id,p.hash);const next=l.replace(p.id,{...payload,body:'Revised invitation'});await expect(l.run(payload,{approvalId:a.id,idempotencyKey:'old'},async()=>({id:'bad'}))).rejects.toThrow(/revoked/);expect(next.hash).not.toBe(p.hash);expect(()=>l.approve(p.id,p.hash)).toThrow(/revoked/);const approved=l.approve(next.id,next.hash);expect(await l.run(next.payload,{approvalId:approved.id,idempotencyKey:'new'},async()=>({id:'good'}))).toEqual({id:'good'});});
+it('a dispatched draft cannot be edited or revoked',async()=>{const l=new ApprovalLedger(setup());const p=l.prepare(payload);const a=l.approve(p.id,p.hash);await l.run(payload,{approvalId:a.id,idempotencyKey:'sent'},async()=>({id:'receipt'}));expect(()=>l.replace(p.id,payload)).toThrow(/dispatched/);expect(()=>l.revoke(p.id)).toThrow(/dispatched/);});

@@ -1,0 +1,9 @@
+{
+  "goal": "Organize a small dinner from known people and sourced prospects, shortlist with rationale, prepare an editable invitation, and wait for my exact approval before sending to the controlled demo recipient. Fetch the reply afterward.",
+  "expectedShortlistIds": ["fixture-known-1", "fixture-prospect-1"],
+  "selectedPersonIds": ["fixture-known-1"],
+  "editedText": "Please join our small dinner next Thursday. Reply if you can make it.",
+  "recipient": "controlled@example.invalid",
+  "expectedOutcome": {"invitesSent": 1, "recipient": "controlled@example.invalid"},
+  "requiredSponsors": ["neon", "mastra"]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "@browser-operator/vault",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "import-seed": "tsx import-seed.ts",
+    "check": "tsx check.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {}
+}

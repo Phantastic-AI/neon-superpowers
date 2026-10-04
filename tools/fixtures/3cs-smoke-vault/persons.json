@@ -1,0 +1,32 @@
+[
+  {
+    "id": "maya",
+    "name": "Maya Chen",
+    "anchors": [
+      { "kind": "email", "value": "maya@example.test", "verified": true, "context": "3cs" }
+    ],
+    "merged": [],
+    "sighted_at": "2026-06-18T18:30:00.000Z",
+    "state": "active"
+  },
+  {
+    "id": "idris",
+    "name": "Idris Bello",
+    "anchors": [
+      { "kind": "email", "value": "idris@example.test", "verified": true, "context": "3cs" }
+    ],
+    "merged": [],
+    "sighted_at": "2026-07-16T18:30:00.000Z",
+    "state": "active"
+  },
+  {
+    "id": "samira",
+    "name": "Samira Noor",
+    "anchors": [
+      { "kind": "email", "value": "samira@example.test", "verified": true, "context": "3cs" }
+    ],
+    "merged": [],
+    "sighted_at": "2026-08-29T18:30:00.000Z",
+    "state": "active"
+  }
+]

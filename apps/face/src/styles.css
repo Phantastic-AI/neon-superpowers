@@ -1,0 +1,1175 @@
+/* ==========================================================================
+   Tokens — copied VERBATIM from superpowers/public/tokens.css (the source of
+   truth; design.md: "public/tokens.css is the source of truth").
+   ========================================================================== */
+
+/* Hallmark · genre: editorial · macrostructure: Marquee Hero · theme: Newsprint · enrichment: none · nav: N9 · footer: Ft6
+ * H1 marquee knobs: size=xl, alignment=left-bias, underlay=single rule below
+ * F4 step knobs: numbering=1/2/3/4 inline, layout=vertical stack, connector=none
+ * F6 product knobs: ratio=none (typographic cards), density=2-up, price=under name, micro-action=none
+ * C2 form knobs: fields=1, submit=end-of-row, helper=below · Ft6 knobs: signoff=italic, postscript=yes, width=60ch
+ * motion: none (Newsprint duration scale 0x, print metaphor)
+ * axes: paper=light · display=roman-serif · accent=warm
+ * Hallmark · pre-emit critique: P5 H4 E4 S5 R5 V4 */
+
+:root {
+  --color-paper:      oklch(92% 0.045 50);
+  --color-paper-2:    oklch(89% 0.050 50);
+  --color-paper-3:    oklch(84% 0.054 45);
+  --color-rule:       oklch(68% 0.030 40);
+  --color-rule-2:     oklch(35% 0.020 35);
+  --color-muted:      oklch(42% 0.022 35);
+  --color-neutral:    oklch(30% 0.025 30);
+  --color-ink-2:      oklch(20% 0.030 28);
+  --color-ink:        oklch(15% 0.030 25);
+  --color-accent:     oklch(32% 0.10 28);
+  --color-accent-ink: oklch(43% 0.13 30);
+  --color-focus:      oklch(48% 0.18 30);
+
+  --font-display: "Playfair Display", "Crimson Pro", ui-serif, Georgia, serif;
+  --font-body:    "Crimson Pro", ui-serif, Georgia, serif;
+  --font-mono:    "IBM Plex Mono", ui-monospace, monospace;
+
+  --display-weight: 700;
+
+  --text-sm:   0.9375rem;
+  --text-base: 1.0625rem;
+  --text-md:   1.1875rem;
+  --text-lg:   1.375rem;
+  --text-xl:   1.625rem;
+  --text-2xl:  2rem;
+  --text-display:   clamp(2.75rem, 6vw + 0.75rem, 5.5rem);
+  --text-display-s: clamp(2rem, 3vw + 1rem, 2.875rem);
+
+  --tracking-display: -0.022em;
+  --tracking-tight:   -0.008em;
+  --tracking-label:   0.06em;
+
+  --lh-tight:   1.04;
+  --lh-snug:    1.2;
+  --lh-normal:  1.55;
+  --lh-relaxed: 1.65;
+
+  --space-2xs: 0.25rem;
+  --space-xs:  0.5rem;
+  --space-sm:  0.75rem;
+  --space-md:  1rem;
+  --space-lg:  1.5rem;
+  --space-xl:  2.5rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+
+  --rule-hair:  1px;
+  --rule-thick: 3px;
+  --radius-input: 0;
+
+  --measure: 58ch;
+  --page-max: 68rem;
+  --page-gutter: clamp(1.25rem, 5vw, 3.5rem);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro: 120ms;
+}
+
+/* ==========================================================================
+   The newsroom surface (design.md §Variants, D-033): same inks, one column
+   of paper. Workhorse text face at UI sizes; Playfair ONLY on mastheads;
+   IBM Plex Mono is the wire register for every numeral, meter, and status
+   line. Print rules: square corners everywhere; the page never animates —
+   only the objects perform (D-035).
+   ========================================================================== */
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
+body {
+  margin: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--lh-normal);
+  overflow-x: clip;
+}
+button, input {
+  border-radius: var(--radius-input);
+  font: inherit;
+}
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.page {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: var(--space-xl) clamp(1.25rem, 5vw, 3rem) var(--space-2xl);
+}
+
+/* ---- masthead ------------------------------------------------------------ */
+.masthead {
+  border-bottom: var(--rule-thick) solid var(--color-ink);
+  padding-bottom: var(--space-sm);
+}
+.masthead .over {
+  display: block;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--color-muted);
+  margin-bottom: var(--space-xs);
+}
+.masthead h1 {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--tracking-tight);
+  font-size: clamp(1.75rem, 4.5vw, 2.5rem);
+  line-height: var(--lh-tight);
+  margin: 0;
+  color: var(--color-ink);
+}
+.masthead .dateline {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--color-muted);
+  margin-top: var(--space-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- the conversation ---------------------------------------------------- */
+.convo { margin-top: var(--space-lg); }
+.turn { margin-top: var(--space-lg); }
+.lois {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  max-width: 52ch;
+  margin: 0 0 var(--space-md);
+}
+.lois .who {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--color-muted);
+  margin-right: 0.6rem;
+}
+
+/* chips — controls, so never the display face (design.md fence) */
+.chips {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm);
+  max-width: 36rem;
+}
+.chip {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--color-paper-2);
+  border: var(--rule-hair) solid var(--color-rule);
+  padding: 0.8rem 1rem 0.85rem;
+  cursor: pointer;
+  color: var(--color-ink);
+}
+.chip:hover { border-color: var(--color-rule-2); }
+.chip__label {
+  display: block;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  color: var(--color-ink);
+}
+.chip__sub {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  margin-top: 0.15rem;
+}
+.chip[aria-pressed="true"] {
+  border-left: var(--rule-thick) solid var(--color-accent);
+  padding-left: calc(1rem - 2px);
+}
+.chip[aria-pressed="true"] .chip__label { color: var(--color-accent-ink); }
+.chip[disabled] { cursor: default; }
+.chip[disabled]:hover { border-color: var(--color-rule); }
+.chip[aria-pressed="true"][disabled]:hover { border-left-color: var(--color-accent); }
+
+/* the paste field */
+.connect { max-width: 36rem; }
+.connect__row { display: flex; gap: var(--space-sm); align-items: stretch; }
+.field {
+  flex: 1;
+  min-width: 0;
+  background: var(--color-paper-2);
+  border: var(--rule-hair) solid var(--color-rule-2);
+  padding: 0.55rem 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  letter-spacing: 0.02em;
+  color: var(--color-ink);
+}
+.field::placeholder { color: var(--color-muted); opacity: 1; }
+
+/* CTA voice: typographic, mono, letter-spaced, hairline underline in ink */
+.cta {
+  appearance: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0 0 2px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  color: var(--color-ink);
+  border-bottom: var(--rule-hair) solid var(--color-ink);
+  align-self: center;
+  white-space: nowrap;
+}
+.cta[disabled] { color: var(--color-muted); border-bottom-color: var(--color-rule); cursor: default; }
+.linklike {
+  appearance: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-accent-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.aside { margin-top: var(--space-xs); }
+
+/* B4 — the one-line correction, in place, no modal. Lois's register, not
+   the wire's: serif sentence case; mono only for the example link
+   (2026-08-27 style study). */
+.correction {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-accent-ink);
+  margin-top: var(--space-xs);
+  min-height: 1.2em;
+  max-width: 52ch;
+}
+.correction__example {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  letter-spacing: 0.04em;
+}
+
+/* ---- the wire ticker (lifted from the motion sketches) ------------------- */
+.ticker {
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  letter-spacing: 0.04em;
+  color: var(--color-ink-2);
+  min-height: 9.8em;
+  font-variant-numeric: tabular-nums;
+}
+.tline { min-height: 1.62em; white-space: nowrap; }
+.tline.done .cursor { display: none; }
+.tline--land { color: var(--color-accent-ink); font-weight: 500; }
+.cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  background: var(--color-accent-ink);
+  vertical-align: text-bottom;
+  animation: blink 0.9s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ---- the card chip ------------------------------------------------------- */
+.cardchip {
+  max-width: 36rem;
+  background: var(--color-paper-2);
+  border: var(--rule-hair) solid var(--color-rule-2);
+  padding: var(--space-md) 1.1rem 1.1rem;
+}
+.cardchip__grid {
+  display: grid;
+  grid-template-columns: 1fr 6rem 4.5rem;
+  gap: var(--space-sm);
+}
+.cardfield label {
+  display: block;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  color: var(--color-muted);
+  margin-bottom: 0.25rem;
+}
+.cardfield input {
+  width: 100%;
+  background: var(--color-paper);
+  border: var(--rule-hair) solid var(--color-rule);
+  padding: 0.45rem 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  letter-spacing: 0.04em;
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+}
+.cardchip__actions {
+  display: flex;
+  gap: var(--space-lg);
+  align-items: baseline;
+  margin-top: var(--space-md);
+}
+
+/* telegram status lines — the wire register */
+.statusline {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--color-muted);
+  margin-top: var(--space-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- editorial slates — internal proof-marks, quiet, mono ---------------- */
+.slate {
+  max-width: 36rem;
+  border: var(--rule-hair) solid var(--color-rule-2);
+  background: var(--color-paper-3);
+  padding: 0.7rem 0.9rem 0.75rem;
+  margin-top: var(--space-sm);
+  font-family: var(--font-mono);
+}
+.slate__head {
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  color: var(--color-ink-2);
+}
+.slate__sub {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: var(--color-muted);
+  margin-top: 0.3rem;
+}
+
+/* ---- The Room ------------------------------------------------------------ */
+/* .queue__counts shares the wire-register counts row: the three visible
+   queues above the deck read exactly like the Room's RSVP row. */
+.queue__counts,
+.room__counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--color-muted);
+  border-bottom: var(--rule-hair) solid var(--color-rule);
+  padding: 0.7rem 0 0.55rem;
+  font-variant-numeric: tabular-nums;
+}
+.queue__counts b,
+.room__counts b { color: var(--color-ink); font-weight: 500; }
+
+.meter {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--color-muted);
+  border-bottom: var(--rule-hair) solid var(--color-rule);
+  padding: 0.6rem 0 0.7rem;
+  font-variant-numeric: tabular-nums;
+}
+.meter__bar {
+  flex: 1;
+  min-width: 4rem;
+  height: 4px;
+  background: var(--color-paper-3);
+}
+.meter__fill { height: 100%; background: var(--color-ink-2); }
+
+/* the odometer (lifted from the motion sketches) */
+.odo { display: inline-block; height: 1.3em; overflow: hidden; vertical-align: bottom; }
+.odo__strip { display: block; transition: transform 0.36s var(--ease-out); }
+.odo__strip span { display: block; height: 1.3em; }
+
+/* guest rows */
+.guests { list-style: none; margin: 0; padding: 0; }
+.guest {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.8rem;
+  padding: 0.55rem 0;
+  /* At 78 rows a full-strength hairline under every row becomes a grille
+     that outweighs the data (2026-08-27 style study) — the rule stays, at
+     less than half its ink. */
+  border-bottom: var(--rule-hair) solid color-mix(in oklab, var(--color-rule) 42%, var(--color-paper));
+}
+.guest .pin {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--color-rule);
+  flex: none;
+  align-self: center;
+}
+.guest .pin--accepted { background: var(--color-accent); }
+.guest .pin--tentative { background: var(--color-ink-2); }
+.guest .name { font-weight: 600; color: var(--color-ink); }
+.guest .name--quiet { font-weight: 400; color: var(--color-muted); }
+.guest .state,
+.guest .lookup,
+.guest .anchors {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--color-ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.guest .state--quiet { color: var(--color-muted); }
+.guest .lookup { color: var(--color-muted); }
+.guest .anchors { margin-left: auto; color: var(--color-muted); }
+
+/* the pin-drop landing (lifted; batched by per-row delay set in JS) */
+.guest--new { visibility: hidden; }
+.guest--new.landing {
+  visibility: visible;
+  animation: rowland 0.5s cubic-bezier(0.3, 1.4, 0.4, 1) both;
+}
+.guest--new.landing .pin {
+  animation: pinland 0.42s cubic-bezier(0.3, 1.8, 0.4, 1) both;
+}
+@keyframes rowland {
+  from { transform: translateY(-1.7rem); opacity: 0; }
+  55%  { transform: translateY(0.12rem); opacity: 1; }
+  78%  { transform: translateY(-0.07rem); }
+  to   { transform: translateY(0); opacity: 1; }
+}
+@keyframes pinland {
+  from { transform: scale(0); }
+  60%  { transform: scale(1.5); }
+  to   { transform: scale(1); }
+}
+
+.room__after { margin-top: var(--space-lg); }
+
+/* not-found */
+.nothing { margin-top: var(--space-lg); }
+
+/* ---- small paper --------------------------------------------------------- */
+@media (max-width: 560px) {
+  .chips { grid-template-columns: 1fr; }
+  .tline { white-space: normal; }
+  .ticker { min-height: 0; }
+  .connect__row { flex-wrap: wrap; }
+  .cardchip__grid { grid-template-columns: 1fr 1fr; }
+  .cardfield--number { grid-column: 1 / -1; }
+}
+
+/* ---- reduced motion: the still final frame IS the performance ------------ */
+@media (prefers-reduced-motion: reduce) {
+  .cursor { animation: none; }
+  .guest--new.landing,
+  .guest--new.landing .pin { animation: none; }
+  .odo__strip { transition: none; }
+}
+
+/* The desk note: Lois's presence in print furniture, never a chat bubble
+   inside the broadsheet (2026-08-27). Rides above the guest rows. */
+.desknote {
+  margin-top: var(--space-lg);
+  border: var(--rule-hair) solid var(--color-rule-2);
+  border-left: var(--rule-thick) solid var(--color-accent);
+  background: var(--color-paper-2);
+  padding: var(--space-md) var(--space-lg);
+}
+.desknote .over {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--color-muted);
+  display: block;
+}
+.desknote__line {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  margin: var(--space-xs) 0 var(--space-sm);
+  max-width: 52ch;
+}
+.desknote__fine {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  margin: var(--space-sm) 0 0;
+  max-width: 52ch;
+}
+
+/* ==========================================================================
+   The Queue (walkthrough 2) — the deck, the staged pile, the stamp.
+   Facsimile cards carry the real message in full; square corners; mono for
+   every numeral and status line. The page never animates — the card
+   leaving on a decision, the counts flipping, and the seal coming down are
+   the only performers (D-035; D-044 for the stamp's theater).
+   ========================================================================== */
+
+.queue { margin-top: var(--space-lg); }
+.deckhint {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--color-muted);
+  margin: var(--space-lg) 0 var(--space-sm);
+  font-variant-numeric: tabular-nums;
+}
+.qstack { display: grid; gap: var(--space-sm); max-width: 40rem; }
+
+/* one sheet of paper; .qcard adds the deck's stacked-sheets shadow */
+.qpaper {
+  background: var(--color-paper-2);
+  border: var(--rule-hair) solid var(--color-rule-2);
+  padding: 1.1rem 1.2rem 1.2rem;
+  position: relative;
+}
+.qcard { box-shadow: 5px 5px 0 var(--color-paper-3), 6px 6px 0 var(--color-rule); }
+/* the released sheet clears a band at its head for the seal, so the
+   imprint never sits over a row's time (the timeline stays legible) */
+.qpaper--stamped { padding-top: 7.4rem; }
+.qcard--out-left,
+.qcard--out-right,
+.qcard--out-down { pointer-events: none; }
+.qcard--out-left  { animation: cardout-l 0.19s ease-in forwards; }
+.qcard--out-right { animation: cardout-r 0.19s ease-in forwards; }
+.qcard--out-down  { animation: cardout-d 0.19s ease-in forwards; }
+@keyframes cardout-l { to { transform: translateX(-3rem); opacity: 0; } }
+@keyframes cardout-r { to { transform: translateX(3rem); opacity: 0; } }
+@keyframes cardout-d { to { transform: translateY(2.2rem); opacity: 0; } }
+
+.qcard__avatar {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.2rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  display: grid;
+  place-items: center;
+  background: var(--color-paper-3);
+  border: var(--rule-hair) solid var(--color-rule);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.84rem;
+  letter-spacing: 0.08em;
+  color: var(--color-ink-2);
+}
+
+/* the facsimile head: To / From / subject, the real client's shape */
+.mailrows {
+  border-bottom: var(--rule-hair) solid var(--color-rule);
+  padding-bottom: 0.6rem;
+  padding-right: 3.2rem;
+}
+.mailrow {
+  display: flex;
+  gap: 0.7rem;
+  align-items: baseline;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--color-muted);
+  margin-top: 0.25rem;
+  font-variant-numeric: tabular-nums;
+}
+.mailrow:first-child { margin-top: 0; }
+.mailrow .k { flex: none; width: 4.2rem; }
+.mailrow .v { color: var(--color-ink-2); letter-spacing: 0.04em; overflow-wrap: anywhere; min-width: 0; flex: 1; }
+.mailrow .v--subject {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-ink);
+  letter-spacing: 0;
+}
+.mailmiss { color: var(--color-accent-ink); font-weight: 500; }
+.mailbody {
+  margin: 0.8rem 0 0;
+  max-width: 48ch;
+  color: var(--color-ink);
+  white-space: pre-line;
+}
+
+/* the hard block: fail-closed, the specific reason on the card */
+.blockline {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--color-accent-ink);
+  border-left: var(--rule-thick) solid var(--color-accent);
+  padding-left: 0.7rem;
+  margin: var(--space-md) 0 0;
+}
+.blockfine {
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  margin: 0.3rem 0 0;
+  max-width: 48ch;
+}
+
+.statusline--ink { color: var(--color-ink-2); }
+.statusline--warn { color: var(--color-accent-ink); }
+.statusline--approved { color: var(--color-accent-ink); }
+.qaccount { margin-top: 0.35rem; }
+
+.qactions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.6rem;
+  margin-top: var(--space-md);
+  border-top: var(--rule-hair) solid var(--color-rule);
+  padding-top: 0.8rem;
+}
+
+/* B-edit: the body editable in place, same sheet, no modal */
+.qedit {
+  display: block;
+  width: 100%;
+  min-height: 9em;
+  resize: vertical;
+  background: var(--color-paper);
+  border: var(--rule-hair) solid var(--color-rule-2);
+  padding: 0.6rem 0.7rem;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--lh-normal);
+  color: var(--color-ink);
+  margin-top: 0.8rem;
+}
+.qto { width: 100%; }
+
+/* the staged pile and the execution timeline (same sheet, before/after) */
+.staged, .execution { margin-top: var(--space-xl); }
+.qstage {
+  position: relative;
+  overflow: hidden;
+  padding-top: 0.7rem;
+  margin-top: var(--space-xs);
+}
+.execution .qstage { margin-top: var(--space-sm); }
+.stagedrow {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.8rem;
+  padding: 0.5rem 0;
+  border-bottom: var(--rule-hair) solid color-mix(in oklab, var(--color-rule) 42%, var(--color-paper));
+}
+.stagedrow .name { font-weight: 600; color: var(--color-ink); }
+.stagedrow .ssub { color: var(--color-muted); font-size: var(--text-sm); min-width: 0; }
+.stagedrow .right { margin-left: auto; }
+.stagedrow .when {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--color-ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.schedule {
+  margin: var(--space-md) 0 0;
+  max-width: 52ch;
+  color: var(--color-ink);
+}
+.planline {
+  margin: var(--space-md) 0 var(--space-sm);
+  max-width: 52ch;
+  color: var(--color-ink);
+}
+.queue__tail { margin-top: var(--space-xl); }
+
+/* ---- the stamp (lifted from the approved motion sketches) ---------------- */
+.stampzone {
+  position: absolute;
+  top: -0.6rem;
+  right: 1.1rem;
+  width: 118px;
+  height: 118px;
+  pointer-events: none;
+}
+.stampzone .imprint,
+.stampzone .faller {
+  position: absolute;
+  inset: 0;
+  width: 118px;
+  height: 118px;
+}
+.imprint { opacity: 0; }
+.imprint.inked { animation: ink 0.12s linear forwards; }
+@keyframes ink { from { opacity: 0; } to { opacity: 0.9; } }
+.faller { opacity: 0; }
+.faller.drop { animation: sealdrop 0.24s cubic-bezier(0.55, 0, 1, 0.45) forwards; }
+@keyframes sealdrop {
+  from { opacity: 1; transform: translateY(-150px) scale(1.12) rotate(2deg); filter: drop-shadow(0 16px 10px oklch(15% 0.03 25 / 0.22)); }
+  to   { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); filter: drop-shadow(0 1px 1px oklch(15% 0.03 25 / 0.12)); }
+}
+.faller.squash { animation: sealsquash 0.12s linear forwards; }
+@keyframes sealsquash {
+  from { opacity: 1; transform: scaleY(1); }
+  45%  { opacity: 1; transform: scaleY(0.96) translateY(2px); }
+  to   { opacity: 1; transform: scaleY(1); }
+}
+.faller.lift { animation: seallift 0.5s var(--ease-out) forwards; }
+@keyframes seallift {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-170px) rotate(-3deg); }
+}
+.qpaper.shake { animation: papershake 0.16s linear 1; }
+@keyframes papershake {
+  25% { transform: translateY(1.5px) rotate(0.2deg); }
+  60% { transform: translateY(-0.5px) rotate(-0.1deg); }
+  to  { transform: none; }
+}
+
+/* ---- the queue on small paper -------------------------------------------- */
+@media (max-width: 560px) {
+  .qpaper { padding: 0.9rem 0.9rem 1rem; }
+  .qcard__avatar { width: 2rem; height: 2rem; top: 0.9rem; right: 0.9rem; }
+  .mailrows { padding-right: 2.6rem; }
+  .mailrow { flex-wrap: wrap; gap: 0.15rem 0.7rem; }
+  .qactions { gap: 0.8rem 1.1rem; }
+  .stampzone { width: 92px; height: 92px; right: 0.7rem; }
+  .stampzone .imprint,
+  .stampzone .faller { width: 92px; height: 92px; }
+  .qpaper--stamped { padding-top: 5.9rem; }
+}
+
+/* ---- reduced motion: the still final frame IS the performance ------------ */
+@media (prefers-reduced-motion: reduce) {
+  .qcard--out-left,
+  .qcard--out-right,
+  .qcard--out-down { animation: none; opacity: 0; }
+  .qpaper.shake { animation: none; }
+  .faller.drop,
+  .faller.squash,
+  .faller.lift { animation: none; opacity: 0; }
+  .imprint.inked { animation: none; opacity: 0.9; }
+}
+
+/* ==========================================================================
+   Hacker Garage re-invite (D-075) — the people step's pickable rows, the
+   plan-as-story glance, the dry-run register. Reuses the Room + Queue bones;
+   only what is new lives here.
+   ========================================================================== */
+
+/* the muted caption under a Lois line (progressive-disclosure note, sender note) */
+.muted-note {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  max-width: 52ch;
+  margin: var(--space-xs) 0 0;
+}
+
+/* the people step: each row is tap-to-cut */
+.guest--pick { cursor: pointer; }
+.guest--pick:hover { background: color-mix(in oklab, var(--color-paper-2) 60%, var(--color-paper)); }
+.guest--pick .anchors { color: var(--color-accent-ink); }
+.guest--cut { opacity: 0.55; }
+.guest--cut .pin { background: var(--color-rule); }
+.guest--cut .anchors { color: var(--color-muted); }
+
+/* the plan-as-story glance (D-063): the waves, a plain vertical list */
+.waves {
+  list-style: none;
+  margin: var(--space-xs) 0 var(--space-md);
+  padding: 0;
+  max-width: 52ch;
+}
+.waves li {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  padding: 0.3rem 0 0.3rem 1rem;
+  border-left: var(--rule-hair) solid var(--color-rule);
+  margin-top: 0.25rem;
+}
+
+/* ==========================================================================
+   Lois, wired — the chat-left / stage-right console (D-077), the eight beats
+   (D-078), and the browser in its System 7 coat (D-079). The whole console
+   sits desaturated until the world blooms (D-058): .console -> .console.bloom.
+   ========================================================================== */
+/* the whole surface is dormant (warm, desaturated) until the world blooms
+   (D-058); the frame carries the filter so rail, stage, and margins bloom as
+   one, not just the console box. */
+.deskframe { min-height: 100vh; background: var(--color-paper); filter: saturate(0.4); transition: filter 0.95s var(--ease-out); }
+.deskframe.bloom { filter: saturate(1); }
+.desk-tabs {
+  display: flex; gap: var(--space-md); align-items: center;
+  padding: var(--space-xs) var(--space-md);
+  background: var(--color-paper); color: var(--color-ink);
+  border-bottom: var(--rule-hair) solid var(--color-rule);
+  position: sticky; top: 0; z-index: 2;
+}
+.desk-tabs button, .desk-retry {
+  min-height: 44px; padding: var(--space-xs) var(--space-sm);
+  font: inherit; font-family: var(--font-mono); font-size: var(--text-sm);
+  color: var(--color-ink); background: transparent;
+  border: 0; border-bottom: var(--rule-hair) solid transparent;
+  cursor: pointer; white-space: nowrap;
+}
+.desk-tabs button[aria-pressed="true"], .desk-retry { border-bottom-color: var(--color-ink); }
+.desk-tabs [hidden] { display: none; }
+.people-view-label { display: grid; gap: var(--space-xs); font-family: var(--font-mono); font-size: var(--text-sm); margin-bottom: var(--space-md); }
+.people-view-select { min-height: 44px; max-width: 100%; min-width: 0; padding: var(--space-xs); font: inherit; color: var(--color-ink); background: var(--color-paper); border: var(--rule-hair) solid var(--color-rule-2); }
+.people-workspace-host { min-width: 0; }
+.console {
+  max-width: 74rem; margin: 0 auto;
+  padding: var(--space-lg) clamp(1rem, 4vw, 2.5rem) var(--space-2xl);
+  display: grid; grid-template-columns: 23rem 1fr; gap: clamp(1rem, 3vw, 2.25rem);
+  align-items: start; min-height: 100vh;
+}
+.console > * { min-width: 0; }
+@media (min-width: 51.251rem) {
+  .console { max-width: 100rem; grid-template-columns: minmax(19rem, 23rem) minmax(0, 1fr); }
+  .desk-tabs { position: static; justify-content: flex-end; max-width: 100rem; margin: auto; border: 0; padding-bottom: 0; }
+  .desk-tabs__lois { display: none; }
+}
+@media (max-width: 51.25rem) {
+  .deskframe[data-pane="stage"] .rail { display: none; }
+  .deskframe[data-pane="lois"] .stage { display: none; }
+  .console { min-height: calc(100dvh - 4rem); }
+}
+@media (max-width: 820px) { .console { grid-template-columns: 1fr; } }
+
+/* ---- rail: the conversation ---------------------------------------------- */
+.rail__head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-bottom: var(--rule-thick) solid var(--color-ink);
+  padding-bottom: var(--space-xs); margin-bottom: var(--space-md);
+}
+.rail__mark { font-family: var(--font-display); font-weight: 700; font-size: var(--text-md); letter-spacing: var(--tracking-tight); }
+.rail__who { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.14em; color: var(--color-muted); }
+.thread { display: flex; flex-direction: column; gap: var(--space-md); }
+.msg { max-width: 34ch; }
+.msg--you { align-self: flex-end; text-align: right; }
+.msg__who { display: block; font-family: var(--font-mono); font-weight: 500; font-size: 0.6rem; letter-spacing: 0.14em; color: var(--color-accent-ink); margin-bottom: var(--space-2xs); }
+.msg__say { margin: 0 0 var(--space-2xs); font-size: var(--text-md); line-height: var(--lh-snug); }
+.msg--you .msg__say { font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-muted); background: var(--color-paper-3); padding: var(--space-2xs) var(--space-xs); display: inline-block; }
+
+/* chips inside the thread (override the page-level chip styling) */
+.thread .chips { display: flex; flex-direction: column; gap: var(--space-xs); margin-top: var(--space-2xs); align-items: stretch; }
+.thread .chip { display: block; text-align: left; border: 1px solid var(--color-rule); background: var(--color-paper-2); padding: var(--space-xs) var(--space-sm); cursor: pointer; }
+.thread .chip:hover { background: var(--color-paper-3); }
+.thread .chip__label { display: block; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; color: var(--color-ink); }
+.thread .chip__sub { display: block; font-size: 0.85rem; color: var(--color-muted); margin-top: 1px; }
+.thread .chip--hot { border-left: var(--rule-thick) solid var(--color-accent-ink); }
+.thread .chip--hot .chip__label { color: var(--color-accent-ink); }
+
+/* ---- stage: the surfaced pane -------------------------------------------- */
+.stage {
+  position: sticky; top: var(--space-lg);
+  border: 1px solid var(--color-rule); background: var(--color-paper-2);
+  min-height: 26rem; padding: var(--space-md) var(--space-lg);
+}
+.stage.stage--people { background: var(--color-paper); color: var(--color-ink); border: 0; padding: 0; min-width: 0; }
+@media (max-width: 820px) { .stage { position: static; } }
+.stage__head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--color-ink); padding-bottom: var(--space-2xs); margin-bottom: var(--space-md); gap: var(--space-sm); }
+.stage__over { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.14em; color: var(--color-muted); }
+.stage__title { font-family: var(--font-display); font-weight: 700; font-size: var(--text-md); }
+.stage__quiet { color: var(--color-muted); font-style: italic; font-size: var(--text-sm); }
+
+/* index cards */
+.icard { border: 1px solid var(--color-rule); border-left: var(--rule-thick) solid var(--color-rule-2); background: var(--color-paper); padding: var(--space-sm) var(--space-md); margin-bottom: var(--space-sm); }
+.icard--go { border-left-color: var(--color-accent-ink); }
+.icard__t { font-family: var(--font-display); font-weight: 700; font-size: var(--text-base); }
+.icard__s { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.06em; color: var(--color-muted); margin-top: var(--space-2xs); }
+.cardrow { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); margin-top: var(--space-sm); }
+@media (max-width: 520px) { .cardrow { grid-template-columns: 1fr; } }
+
+/* the plan arc + waves */
+.planarc { display: flex; flex-wrap: wrap; gap: var(--space-md); font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.08em; color: var(--color-muted); border-bottom: 1px solid var(--color-rule); padding-bottom: var(--space-xs); margin-bottom: var(--space-sm); }
+.planarc__d { color: var(--color-rule-2); margin-right: 0.3em; }
+.wavelist { margin: 0 0 var(--space-sm); padding-left: 1.1rem; font-size: var(--text-sm); color: var(--color-ink-2); }
+.wavelist li { margin: 0.15rem 0; }
+
+/* the dossier (it knows them) */
+.dossier { border: 1px solid var(--color-rule); background: var(--color-paper); }
+.dline { display: grid; grid-template-columns: 1.4rem 1fr auto; gap: 0.5rem; align-items: baseline; padding: 0.3rem 0.6rem; border-bottom: 1px dotted var(--color-rule); font-size: var(--text-sm); }
+.dline:last-child { border-bottom: 0; }
+.dline__n { font-family: var(--font-mono); font-size: 0.6rem; color: var(--color-muted); }
+.dline__name { font-weight: 600; }
+.dline__g { font-family: var(--font-mono); font-size: 0.56rem; letter-spacing: 0.04em; color: var(--color-rule-2); }
+.dline--rest .dline__name { color: var(--color-muted); font-weight: 400; font-style: italic; }
+.dline--in { animation: dslide 0.5s var(--ease-out) both; }
+@keyframes dslide { from { opacity: 0; transform: translateX(1rem); } to { opacity: 1; transform: none; } }
+
+/* the world hero (bloom) */
+.worldhero { position: relative; min-height: 12rem; display: flex; align-items: flex-end; margin-bottom: var(--space-sm);
+  background:
+    radial-gradient(120% 120% at 15% 10%, oklch(72% 0.15 60 / 0.95), transparent 55%),
+    radial-gradient(130% 130% at 90% 20%, oklch(55% 0.16 20 / 0.9), transparent 50%),
+    radial-gradient(140% 120% at 60% 110%, oklch(38% 0.14 300 / 0.95), transparent 55%),
+    linear-gradient(160deg, oklch(40% 0.10 300), oklch(30% 0.08 30)); }
+.worldhero__cap { position: absolute; top: 0.5rem; right: 0.7rem; font-family: var(--font-mono); font-size: 0.56rem; letter-spacing: 0.12em; color: oklch(96% 0.02 80 / 0.8); }
+.worldhero__h { padding: var(--space-md); color: oklch(97% 0.02 85); }
+.worldhero__k { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.16em; opacity: 0.85; }
+.worldhero__t { font-family: var(--font-display); font-weight: 700; font-size: var(--text-xl); letter-spacing: var(--tracking-tight); }
+
+/* the people pick list (tap to cut) */
+.peoplecount { display: flex; gap: var(--space-md); font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em; color: var(--color-muted); margin-bottom: var(--space-sm); }
+.peoplecount b { color: var(--color-ink); }
+.picklist { display: flex; flex-direction: column; max-height: 22rem; overflow: auto; border: 1px solid var(--color-rule); }
+.pick { display: flex; align-items: center; gap: 0.5rem; width: 100%; text-align: left; border: 0; border-bottom: 1px solid var(--color-rule); background: var(--color-paper); padding: 0.4rem 0.6rem; cursor: pointer; font: inherit; }
+.pick:last-child { border-bottom: 0; }
+.pick:hover { background: var(--color-paper-3); }
+.pick__name { flex: 1; font-weight: 600; }
+.pick__loy { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.04em; color: var(--color-rule-2); }
+.pick__flag { font-family: var(--font-mono); font-size: 0.54rem; color: var(--color-accent-ink); border: 1px solid var(--color-accent-ink); padding: 0 0.2rem; }
+.pick__mark { font-family: var(--font-mono); font-size: 0.56rem; color: var(--color-muted); width: 2.4rem; text-align: right; }
+.pick--cut { opacity: 0.5; }
+.pick--cut .pick__name { text-decoration: line-through; }
+
+/* the queue on the stage */
+.qcounts { display: flex; gap: var(--space-md); font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em; color: var(--color-muted); margin-bottom: var(--space-xs); }
+.qcounts b { color: var(--color-ink); }
+.dryseal { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.08em; color: var(--color-accent-ink); border: 1px solid var(--color-accent-ink); padding: var(--space-2xs) var(--space-xs); margin-bottom: var(--space-sm); }
+.qaccount { font-family: var(--font-mono); font-size: 0.56rem; letter-spacing: 0.04em; color: var(--color-muted); margin-top: var(--space-2xs); }
+
+/* ---- the browser in its System 7 coat (D-079) ---------------------------- */
+.macwin { border: 2px solid #000; background: #fff; box-shadow: 3px 3px 0 rgba(40, 20, 10, 0.42); display: flex; flex-direction: column; }
+.macwin__title { position: relative; display: flex; align-items: center; justify-content: center; height: 1.3rem; border-bottom: 1px solid #000; background-image: repeating-linear-gradient(to bottom, #000 0 1px, #fff 1px 3px); }
+.macwin__close { position: absolute; left: 0.35rem; top: 50%; transform: translateY(-50%); width: 0.72rem; height: 0.72rem; background: #fff; border: 1px solid #000; }
+.macwin__name { background: #fff; padding: 0 0.55rem; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 700; font-size: 0.72rem; color: #000; }
+.macwin__tool { display: flex; align-items: center; gap: 0.45rem; padding: 0.3rem 0.5rem; border-bottom: 1px solid #000; background: #d9d9d9; }
+.macwin__lbl { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 700; font-size: 0.6rem; color: #000; }
+.macwin__url { flex: 1; font-family: var(--font-mono); font-size: 0.62rem; color: #000; background: #fff; padding: 0.14rem 0.45rem; border: 1px solid #000; box-shadow: inset 1px 1px 0 #808080; }
+.macwin__handoff { flex: 0 0 auto; border: 1px solid #000; background: #fff; color: #000; padding: 0.16rem 0.42rem; font-family: var(--font-mono); font-size: 0.55rem; font-weight: 700; cursor: pointer; box-shadow: 1px 1px 0 #000; }
+.macwin__handoff:active { transform: translate(1px, 1px); box-shadow: none; }
+.macwin__handoff:disabled { cursor: wait; opacity: 0.55; }
+.macwin__pane { display: flex; min-height: 15rem; }
+.macwin__body { position: relative; flex: 1; padding: 0.5rem 0.7rem; overflow: hidden; background: #fff; }
+.macwin__doc { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 700; font-size: 0.95rem; color: #000; margin-bottom: 0.15rem; }
+.brow { display: flex; justify-content: space-between; align-items: center; padding: 0.3rem 0.35rem; border-bottom: 1px solid #000; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 0.84rem; color: #000; }
+.brow--lit { background: #000; color: #fff; }
+.brow--more .brow__n { color: #777; }
+.brow__st { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 700; font-size: 0.58rem; letter-spacing: 0.04em; color: #555; }
+.brow--lit .brow__st { color: #fff; }
+.macwin__scroll { width: 1.05rem; border-left: 1px solid #000; display: flex; flex-direction: column; background: #fff; }
+.macwin__arw { height: 1rem; border-bottom: 1px solid #000; text-align: center; line-height: 1rem; font-size: 0.56rem; color: #000; }
+.macwin__arw--b { border-bottom: 0; border-top: 1px solid #000; }
+.macwin__thumb { height: 1.7rem; border: 1px solid #000; margin: 0.16rem; background: #fff; }
+.macwin__track { flex: 1; background: repeating-linear-gradient(45deg, #c9c9c9 0 1px, #fff 1px 2px); }
+.lcursor { position: absolute; left: 56%; top: 24%; display: flex; align-items: center; gap: 0.25rem; transition: all 0.9s var(--ease-out); }
+.lcursor__tag { background: oklch(55% 0.15 300); color: #fff; font-family: var(--font-mono); font-weight: 500; font-size: 0.58rem; letter-spacing: 0.08em; padding: 0.05rem 0.35rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .console, .lcursor { transition: none; }
+  .dline--in { animation: none; }
+}
+
+/* ---- the people workshop: tap to cut, note to fix (D-080/D-081 seed) ------ */
+.stage__hint { font-size: var(--text-sm); color: var(--color-muted); font-style: italic; margin: 0 0 var(--space-sm); }
+.pickrow { border-bottom: 1px solid var(--color-rule); }
+.pickrow:last-child { border-bottom: 0; }
+.pickrow--cut { opacity: 0.5; }
+.pickhead { display: flex; align-items: stretch; }
+.pickhit { display: flex; align-items: center; gap: 0.5rem; flex: 1; text-align: left; border: 0; background: var(--color-paper); padding: 0.4rem 0.6rem; cursor: pointer; font: inherit; }
+.pickhit:hover { background: var(--color-paper-3); }
+.pickname { flex: 1; font-weight: 600; }
+.pickrow--cut .pickname { text-decoration: line-through; }
+.pickloy { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.04em; color: var(--color-rule-2); }
+.pickflag { font-family: var(--font-mono); font-size: 0.54rem; color: var(--color-accent-ink); border: 1px solid var(--color-accent-ink); padding: 0 0.2rem; }
+.pickmark { font-family: var(--font-mono); font-size: 0.56rem; color: var(--color-muted); width: 2.4rem; text-align: right; }
+.picknote { border: 0; border-left: 1px solid var(--color-rule); background: var(--color-paper-2); width: 2.2rem; cursor: pointer; font-size: 1rem; color: var(--color-muted); }
+.picknote:hover { background: var(--color-paper-3); color: var(--color-ink); }
+.picknote--on { color: var(--color-accent-ink); }
+.pickcomment { margin: 0; padding: 0.2rem 0.6rem 0.5rem; font-style: italic; color: var(--color-ink-2); font-size: var(--text-sm); }
+.pickcomp { display: flex; gap: 0.4rem; padding: 0.3rem 0.6rem 0.5rem; }
+.pickcompinput { flex: 1; border: 1px solid var(--color-rule); background: var(--color-paper); padding: 0.3rem 0.5rem; font: inherit; font-size: var(--text-sm); }
+.pickcompsend { border: 1px solid var(--color-accent-ink); background: var(--color-accent-ink); color: var(--color-paper); font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.08em; padding: 0 0.6rem; cursor: pointer; }
+
+/* ==========================================================================
+   Comment mode (D-081): comment on anything, yellow stickies that snap OUT of
+   the newsprint, submitted to Lois in waves; the page locks while she ingests.
+   ========================================================================== */
+.cm-toggle { position: fixed; top: 0.9rem; right: 1rem; z-index: 40; display: flex; align-items: center; gap: 0.35rem; border: 1px solid var(--color-rule-2); background: var(--color-paper); padding: 0.3rem 0.55rem; cursor: pointer; font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-ink); }
+.cm-toggle:hover { background: var(--color-paper-3); }
+.cm-toggle--on { background: oklch(88% 0.14 95); border-color: oklch(55% 0.12 90); }
+.cm-toggle__count:empty { display: none; }
+.cm-toggle__count { background: var(--color-accent-ink); color: var(--color-paper); border-radius: 999px; min-width: 1.1rem; text-align: center; padding: 0 0.3rem; font-size: 0.62rem; }
+
+/* comment cursor + hover outline on commentable things */
+.commenting [data-commentable] { cursor: crosshair; }
+.commenting [data-commentable]:hover { outline: 2px solid var(--color-accent-ink); outline-offset: 1px; }
+
+/* the batch tray */
+.cm-tray { position: fixed; bottom: 1rem; right: 1rem; z-index: 40; display: none; align-items: center; gap: 0.6rem; background: var(--color-rule-2); color: var(--color-paper); padding: 0.4rem 0.4rem 0.4rem 0.85rem; box-shadow: 0 6px 20px oklch(20% 0.03 40 / 0.4); }
+.cm-tray--show { display: flex; }
+.cm-tray__count { font-family: var(--font-mono); font-size: 0.72rem; }
+.cm-tray__send { border: 0; background: oklch(88% 0.14 95); color: oklch(25% 0.05 60); font-family: var(--font-mono); font-weight: 500; font-size: 0.68rem; letter-spacing: 0.06em; padding: 0.4rem 0.75rem; cursor: pointer; }
+.cm-tray__send:disabled { opacity: 0.5; cursor: default; }
+
+/* the lock veil while a wave ingests */
+.cm-veil { position: fixed; inset: 0; z-index: 50; display: none; align-items: center; justify-content: center; background: oklch(20% 0.03 40 / 0.4); }
+.cm-locked .cm-veil { display: flex; }
+.cm-locked .console { pointer-events: none; }
+.cm-veil__say { background: var(--color-paper); border: 1px solid var(--color-rule-2); padding: 0.8rem 1.4rem; font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-ink); }
+
+/* the sticky itself — off-paper yellow, tilted, sans (not newsprint) */
+.cm-sticky { position: absolute; top: 0.3rem; right: 0.5rem; z-index: 30; width: 15rem; max-width: 62%; background: oklch(90% 0.13 95); color: oklch(24% 0.04 70); box-shadow: 2px 4px 10px oklch(20% 0.05 60 / 0.35); transform: rotate(var(--tilt, -1.5deg)); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; padding: 0.45rem 0.55rem; }
+.cm-sticky__head { display: flex; justify-content: space-between; align-items: center; gap: 0.4rem; font-size: 0.6rem; letter-spacing: 0.04em; text-transform: uppercase; color: oklch(42% 0.06 70); margin-bottom: 0.25rem; }
+.cm-sticky__x { border: 0; background: none; cursor: pointer; font-size: 1rem; line-height: 1; color: oklch(42% 0.06 70); padding: 0; }
+.cm-sticky__input { display: block; width: 100%; border: 0; background: transparent; resize: none; min-height: 2.6rem; font: inherit; font-size: 0.84rem; line-height: 1.35; color: inherit; }
+.cm-sticky__input:focus { outline: none; }
+.cm-sticky__foot { display: flex; justify-content: flex-end; margin-top: 0.2rem; }
+.cm-sticky__done { border: 0; background: oklch(55% 0.12 90); color: #fff; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 0.62rem; letter-spacing: 0.06em; padding: 0.22rem 0.55rem; cursor: pointer; }
+.cm-sticky__thread { margin-top: 0.3rem; }
+.cm-sticky__reply { border-top: 1px dashed oklch(58% 0.09 82); padding-top: 0.3rem; margin-top: 0.3rem; font-size: 0.8rem; line-height: 1.35; }
+.cm-sticky__who { display: block; font-size: 0.55rem; letter-spacing: 0.1em; color: oklch(45% 0.13 40); margin-bottom: 0.1rem; }
+.cm-sticky--answered { box-shadow: 2px 4px 10px oklch(20% 0.05 60 / 0.35), inset 0 0 0 2px oklch(60% 0.12 130); }
+
+@media (max-width: 640px) { .cm-sticky { width: 12rem; max-width: 80%; } }
+
+/* comment mode — the all-comments sidebar (the second face) + handle pill */
+.cm-handle { position: fixed; bottom: 1rem; right: 1rem; z-index: 39; display: none; align-items: center; gap: 0.4rem; border: 0; background: var(--color-rule-2); color: var(--color-paper); padding: 0.4rem 0.75rem; cursor: pointer; box-shadow: 0 6px 20px oklch(20% 0.03 40 / 0.4); font-family: var(--font-mono); font-size: 0.72rem; }
+.cm-handle--show { display: flex; }
+.cm-handle__count { background: oklch(88% 0.14 95); color: oklch(25% 0.05 60); border-radius: 999px; min-width: 1.1rem; text-align: center; padding: 0 0.3rem; }
+/* when a wave is pending the tray sits above the handle so both are reachable */
+.cm-tray--show ~ .cm-handle--show { bottom: 3.6rem; }
+
+.cm-sidebar { position: fixed; top: 0; right: 0; bottom: 0; width: 22rem; max-width: 90vw; z-index: 45; transform: translateX(100%); transition: transform 0.28s var(--ease-out); background: var(--color-paper); border-left: 1px solid var(--color-rule-2); box-shadow: -8px 0 24px oklch(20% 0.03 40 / 0.18); display: flex; flex-direction: column; }
+.cm-sidebar-open .cm-sidebar { transform: none; }
+.cm-sidebar__head { display: flex; justify-content: space-between; align-items: baseline; padding: var(--space-md) var(--space-lg); border-bottom: 1px solid var(--color-ink); }
+.cm-sidebar__title { font-family: var(--font-display); font-weight: 700; font-size: var(--text-md); }
+.cm-sidebar__close { border: 0; background: none; font-size: 1.3rem; line-height: 1; cursor: pointer; color: var(--color-muted); }
+.cm-sidebar__list { flex: 1; overflow-y: auto; padding: var(--space-md) var(--space-lg); }
+.cm-sidebar__empty { color: var(--color-muted); font-style: italic; }
+.cm-card { border-bottom: 1px dotted var(--color-rule); padding: var(--space-sm) 0; }
+.cm-card:last-child { border-bottom: 0; }
+.cm-card__anchor { display: flex; gap: 0.5rem; align-items: baseline; font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-muted); }
+.cm-card__flag { color: oklch(45% 0.13 40); }
+.cm-card__you { margin: 0.2rem 0; font-size: var(--text-sm); }
+.cm-card__lois { margin: 0.2rem 0 0; font-size: var(--text-sm); color: var(--color-ink-2); }
+.cm-card__who { display: block; font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.1em; color: var(--color-accent-ink); }
+.cm-card__wait { margin: 0.2rem 0 0; font-family: var(--font-mono); font-size: 0.6rem; color: var(--color-muted); }
+.cm-sticky__said { margin: 0 0 0.2rem; font-size: 0.84rem; line-height: 1.35; }
+
+/* mobile: the sidebar takes over the whole page; stickies stay floating */
+@media (max-width: 640px) {
+  .cm-sidebar { width: 100vw; max-width: 100vw; border-left: 0; }
+}
+
+/* Lois's own stickies (D-114, the symmetric face): her purple paper against the
+   organizer's yellow, same tilt language, same two-faces lifecycle. */
+.cm-sticky--lois { background: oklch(92% 0.05 300); color: oklch(26% 0.05 300); box-shadow: 2px 4px 10px oklch(22% 0.06 300 / 0.35); }
+.cm-sticky--lois .cm-sticky__head { color: oklch(45% 0.12 300); }
+.cm-sticky--lois.cm-sticky--answered { box-shadow: 2px 4px 10px oklch(22% 0.06 300 / 0.35); }
+.cm-card--lois .cm-card__anchor { color: oklch(45% 0.12 300); }
+
+/* the rail composer: freeform words to Lois once the world is open (D-111) */
+.composer { display: flex; gap: var(--space-2xs); padding: var(--space-xs); border-top: 1px solid var(--color-rule); background: var(--color-paper-2); }
+.composer__input { flex: 1; min-width: 0; border: 1px solid var(--color-rule); background: var(--color-paper); font: inherit; font-size: 0.84rem; padding: 0.35rem 0.5rem; color: var(--color-ink); }
+.composer__input:focus { outline: 2px solid oklch(55% 0.15 300 / 0.5); outline-offset: 0; }
+.composer__send { border: 0; background: oklch(55% 0.15 300); color: #fff; font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.08em; padding: 0.35rem 0.6rem; cursor: pointer; }
+.composer__send:hover { background: oklch(48% 0.15 300); }
+
+/* whispers: the workers (critic, goldfish, gate) surfacing on the rail —
+   the trace in the UX (D-111), quiet by design */
+
+/* the jobs strip: a plain list of what's running (D-119) — quiet when idle */
+.jobs { display: none; border-bottom: 1px solid var(--color-rule); background: var(--color-paper-2); padding: 0.25rem var(--space-xs); }
+.jobs--on { display: block; }
+.jobs__row { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.jobs__copy { display: flex; min-width: 0; flex-direction: column; gap: 0.08rem; }
+.jobs__label { font-family: var(--font-mono); font-size: 0.62rem; color: var(--color-muted); }
+.jobs__blocker { font-size: 0.72rem; color: var(--color-ink); }
+.jobs__x { border: 0; background: none; color: var(--color-muted); cursor: pointer; font-size: 0.7rem; padding: 0.1rem 0.3rem; }
+.jobs__x:hover { color: oklch(45% 0.13 40); }
+
+.trace-studio {
+  border-bottom: 1px solid var(--color-rule);
+  border-top: 1px solid transparent;
+  background: var(--color-paper-2);
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 0.63rem;
+  margin: 0;
+}
+.trace-studio[open] {
+  color: var(--color-ink-2);
+}
+.trace-studio__summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.2rem var(--space-xs) 0.28rem;
+  letter-spacing: 0.08em;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.trace-studio__summary-state {
+  color: var(--color-rule-2);
+  font-size: 0.58rem;
+}
+.trace-studio__body {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0 var(--space-xs) 0.45rem;
+}
+.trace-studio__turn {
+  border: 1px solid var(--color-rule);
+  padding: 0.22rem 0.45rem;
+  margin-bottom: 0.28rem;
+  background: var(--color-paper);
+}
+.trace-studio__turn-id,
+.trace-studio__turn-metrics {
+  color: var(--color-muted);
+  font-size: 0.55rem;
+  line-height: 1.4;
+  margin-top: 0.08rem;
+}
+.trace-studio__timeline {
+  border-top: 1px dotted var(--color-rule-2);
+  padding-top: 0.2rem;
+}
+.trace-studio__timeline summary {
+  font-size: 0.58rem;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+.trace-studio__timeline-list {
+  margin: 0.22rem 0 0;
+  padding-left: 1rem;
+}
+.trace-studio__timeline-line {
+  margin: 0 0 0.25rem;
+  line-height: 1.34;
+}
+
+/* the live viewport: her browser's real pixels inside the System 7 frame */
+.macwin__body--live { position: relative; overflow: hidden; contain: layout paint; padding: 0; min-height: 14rem; display: flex; align-items: center; justify-content: center; background: oklch(97% 0.005 90); }
+.macwin__body--locked { cursor: not-allowed; }
+.macwin__live { display: none; width: 100%; height: auto; max-height: 100%; object-fit: contain; cursor: crosshair; }
+.macwin__live--on { display: block; }
+.browser-moment { margin: var(--space-xs) 0; border: 1px solid var(--color-rule); background: var(--color-paper-2); }
+.browser-moment__summary { cursor: pointer; padding: 0.3rem 0.45rem; font-family: var(--font-mono); font-size: 0.62rem; color: var(--color-muted); }
+.browser-moment__img { display: block; width: 100%; max-height: 16rem; object-fit: contain; border-top: 1px solid var(--color-rule); background: #fff; }
+
+/* Lois mid-think: the honest wait, no mimed instant answers (D-113) */
+.msg--busy .msg__say { color: var(--color-muted); font-style: italic; }
+.msg__stop { margin-left: 0.5rem; border: 1px solid var(--color-rule); background: transparent; color: var(--color-muted); font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.06em; padding: 0.1rem 0.4rem; cursor: pointer; }
+.msg__stop:hover { color: oklch(45% 0.13 40); border-color: oklch(45% 0.13 40); }
+/* Native hidden must beat component display rules. Dormant workshop furniture
+   does not exist on customer glass until an artifact earns it. */
+[hidden] { display: none !important; }

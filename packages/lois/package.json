@@ -1,0 +1,14 @@
+{
+  "name": "@browser-operator/lois",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@openrouter/ai-sdk-provider": "^3.0.0",
+    "ai": "^7.0.84",
+    "zod": "^4.5.2"
+  }
+}

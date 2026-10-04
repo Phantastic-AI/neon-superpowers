@@ -1,0 +1,493 @@
+<!doctype html>
+<!--
+  fogline-day2.html — the same page one fixture-day later: a morning's worth
+  of change over fogline-day1.html. THE DAY-2 DELTA, precisely:
+
+    + 2 new guests, both GOING:
+        pf-0201 Rina Kobayashi   (phone +14155550201)
+        pf-0202 Alexei Morozov   (email alexei.morozov@example.com)
+    ~ 3 INVITED (no-reply) guests flipped to GOING (accepted):
+        pf-0103 Divya Flores · pf-0104 Daehyun Novak · pf-0105 Jisoo Garcia
+    ~ 1 GOING (accepted) guest flipped to CANT_GO (declined):
+        pf-0058 Daniel Park
+
+  The arithmetic, by hand (what sweep must make the Room derive):
+
+    total       78 + 2           = 80
+    accepted    41 + 3 - 1 + 2   = 45
+    tentative    9               =  9
+    declined     6 + 1           =  7
+    no-reply    19 - 3           = 16
+    uninvited    3               =  3
+    cross-foot  45+9+7+16+3      = 80
+
+    anchors: email 44+1 = 45 · phone 60+1 = 61 · linkedin 27.
+
+  A correct sweep against a day-1-connected vault appends EXACTLY 6 entries
+  (2 imported/guest + 4 interaction responses) and registers exactly 2
+  persons; a second sweep of this same page appends nothing.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Fogline — a Tech Week evening · day 2 (sweep)</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, "Helvetica Neue", sans-serif;
+           background: #16121f; color: #f2eefb; }
+    main { max-width: 640px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    .event-hero h1 { font-size: 2rem; margin: 0 0 .25rem; }
+    .event-hero p { margin: .15rem 0; color: #b9aed6; }
+    .guest-list h2 { margin-top: 2.5rem; border-bottom: 1px solid #322a45; padding-bottom: .5rem; }
+    .status-group h3 { color: #b9aed6; font-size: .9rem; text-transform: uppercase;
+                       letter-spacing: .06em; margin: 1.5rem 0 .5rem; }
+    .status-group ul { list-style: none; margin: 0; padding: 0; }
+    .guest { display: flex; align-items: center; gap: .75rem; padding: .45rem 0;
+             border-bottom: 1px solid #221b31; }
+    .avatar { width: 2rem; height: 2rem; border-radius: 50%; background: #3d2f5e;
+              display: inline-flex; align-items: center; justify-content: center;
+              font-size: .75rem; font-weight: 600; }
+    .guest-name { flex: 1; }
+    .badge { font-size: .7rem; padding: .15rem .5rem; border-radius: 999px; background: #2a2240; }
+    .badge-going { background: #1e4634; } .badge-maybe { background: #4a3d1e; }
+    .badge-cantgo { background: #4a1e2a; } .badge-invited { background: #2a2240; }
+    .badge-added { background: #262233; color: #8d80ab; }
+  </style>
+</head>
+<body>
+  <main data-event data-event-title="Fogline — a Tech Week evening" data-event-date="2026-10-07T16:00:00.000Z">
+    <header class="event-hero">
+      <h1 data-event-name>Fogline — a Tech Week evening</h1>
+      <p class="event-when">Wednesday, October 7 · 4:00 PM · San Francisco</p>
+      <p class="event-host">Hosted by Meera Vasan</p>
+    </header>
+    <section class="guest-list" data-guest-list>
+      <h2>Guest list · 80</h2>
+      <section class="status-group" data-status-group="GOING">
+        <h3>Going · 45</h3>
+        <ul>
+        <li class="guest" data-guest data-guest-id="pf-0059" data-rsvp-status="GOING" data-phone="+15557000059">
+          <span class="avatar" aria-hidden="true">SK</span>
+          <span class="guest-name" data-guest-name>Sarah Kim</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0060" data-rsvp-status="GOING" data-phone="+15557000060">
+          <span class="avatar" aria-hidden="true">DN</span>
+          <span class="guest-name" data-guest-name>David Nguyen</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0061" data-rsvp-status="GOING" data-phone="+15557000061">
+          <span class="avatar" aria-hidden="true">PP</span>
+          <span class="guest-name" data-guest-name>Priya Patel</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0062" data-rsvp-status="GOING" data-phone="+15557000062">
+          <span class="avatar" aria-hidden="true">EZ</span>
+          <span class="guest-name" data-guest-name>Emily Zhang</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0063" data-rsvp-status="GOING" data-phone="+15557000063">
+          <span class="avatar" aria-hidden="true">OH</span>
+          <span class="guest-name" data-guest-name>Omar Hassan</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0001" data-rsvp-status="GOING" data-email="nadia.osei.1@example.net" data-phone="+15557000064">
+          <span class="avatar" aria-hidden="true">NO</span>
+          <span class="guest-name" data-guest-name>Nadia Osei</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0045" data-rsvp-status="GOING" data-email="henrik.nguyen.8@example.net" data-phone="+15557000065">
+          <span class="avatar" aria-hidden="true">HN</span>
+          <span class="guest-name" data-guest-name>Henrik Nguyen</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0022" data-rsvp-status="GOING" data-email="sarah.torres.9@example.net" data-phone="+15557000066">
+          <span class="avatar" aria-hidden="true">ST</span>
+          <span class="guest-name" data-guest-name>Sarah Torres</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0026" data-rsvp-status="GOING" data-email="isabela.nguyen.10@example.net" data-phone="+15557000067">
+          <span class="avatar" aria-hidden="true">IN</span>
+          <span class="guest-name" data-guest-name>Isabela Nguyen</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0019" data-rsvp-status="GOING" data-email="mila.anderson.11@example.net" data-phone="+15557000068">
+          <span class="avatar" aria-hidden="true">MA</span>
+          <span class="guest-name" data-guest-name>Mila Anderson</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0044" data-rsvp-status="GOING" data-email="farah.smith.12@example.net" data-phone="+15557000069">
+          <span class="avatar" aria-hidden="true">FS</span>
+          <span class="guest-name" data-guest-name>Farah Smith</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0201" data-rsvp-status="GOING" data-phone="+14155550201">
+          <span class="avatar" aria-hidden="true">RK</span>
+          <span class="guest-name" data-guest-name>Rina Kobayashi</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0036" data-rsvp-status="GOING" data-phone="+15557000070" data-linkedin="https://linkedin.com/in/ananya.zhao-13">
+          <span class="avatar" aria-hidden="true">AZ</span>
+          <span class="guest-name" data-guest-name>Ananya Zhao</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0025" data-rsvp-status="GOING" data-phone="+15557000071" data-linkedin="https://linkedin.com/in/neha.martinez-14">
+          <span class="avatar" aria-hidden="true">NM</span>
+          <span class="guest-name" data-guest-name>Neha Martinez</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0009" data-rsvp-status="GOING" data-phone="+15557000072" data-linkedin="https://linkedin.com/in/ivan.hernandez-15">
+          <span class="avatar" aria-hidden="true">IH</span>
+          <span class="guest-name" data-guest-name>Ivan Hernandez</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0064" data-rsvp-status="GOING" data-phone="+15557000073" data-linkedin="https://linkedin.com/in/ling.bergstrom-73">
+          <span class="avatar" aria-hidden="true">LB</span>
+          <span class="guest-name" data-guest-name>Ling Bergstrom</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0065" data-rsvp-status="GOING" data-phone="+15557000074" data-linkedin="https://linkedin.com/in/farah.nair-74">
+          <span class="avatar" aria-hidden="true">FN</span>
+          <span class="guest-name" data-guest-name>Farah Nair</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0066" data-rsvp-status="GOING" data-phone="+15557000075" data-linkedin="https://linkedin.com/in/kwame.rodriguez-75">
+          <span class="avatar" aria-hidden="true">KR</span>
+          <span class="guest-name" data-guest-name>Kwame Rodriguez</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0067" data-rsvp-status="GOING" data-phone="+15557000076" data-linkedin="https://linkedin.com/in/zainab.lin-76">
+          <span class="avatar" aria-hidden="true">ZL</span>
+          <span class="guest-name" data-guest-name>Zainab Lin</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0068" data-rsvp-status="GOING" data-phone="+15557000077" data-linkedin="https://linkedin.com/in/ishaan.taylor-77">
+          <span class="avatar" aria-hidden="true">IT</span>
+          <span class="guest-name" data-guest-name>Ishaan Taylor</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0069" data-rsvp-status="GOING" data-phone="+15557000078" data-linkedin="https://linkedin.com/in/nia.nguyen-78">
+          <span class="avatar" aria-hidden="true">NN</span>
+          <span class="guest-name" data-guest-name>Nia Nguyen</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0070" data-rsvp-status="GOING" data-phone="+15557000079" data-linkedin="https://linkedin.com/in/elena.park-79">
+          <span class="avatar" aria-hidden="true">EP</span>
+          <span class="guest-name" data-guest-name>Elena Park</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0071" data-rsvp-status="GOING" data-phone="+15557000080" data-linkedin="https://linkedin.com/in/camila.bergstrom-80">
+          <span class="avatar" aria-hidden="true">CB</span>
+          <span class="guest-name" data-guest-name>Camila Bergstrom</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0072" data-rsvp-status="GOING" data-phone="+15557000081" data-linkedin="https://linkedin.com/in/kavya.iyer-81">
+          <span class="avatar" aria-hidden="true">KI</span>
+          <span class="guest-name" data-guest-name>Kavya Iyer</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0073" data-rsvp-status="GOING" data-phone="+15557000082" data-linkedin="https://linkedin.com/in/minjun.mensah-82">
+          <span class="avatar" aria-hidden="true">MM</span>
+          <span class="guest-name" data-guest-name>Minjun Mensah</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0074" data-rsvp-status="GOING" data-phone="+15557000083" data-linkedin="https://linkedin.com/in/wei.reddy-83">
+          <span class="avatar" aria-hidden="true">WR</span>
+          <span class="guest-name" data-guest-name>Wei Reddy</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0088" data-rsvp-status="GOING" data-email="yuki.bennett.97@example.net">
+          <span class="avatar" aria-hidden="true">YB</span>
+          <span class="guest-name" data-guest-name>Yuki Bennett</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0089" data-rsvp-status="GOING" data-phone="+15557000098">
+          <span class="avatar" aria-hidden="true">RA</span>
+          <span class="guest-name" data-guest-name>Rohan Aziz</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0090" data-rsvp-status="GOING" data-phone="+15557000099">
+          <span class="avatar" aria-hidden="true">MZ</span>
+          <span class="guest-name" data-guest-name>Mateo Zhang</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0091" data-rsvp-status="GOING" data-phone="+15557000100">
+          <span class="avatar" aria-hidden="true">AM</span>
+          <span class="guest-name" data-guest-name>Amira Martinez</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0103" data-rsvp-status="GOING" data-email="divya.flores.112@example.net" data-phone="+15557000112">
+          <span class="avatar" aria-hidden="true">DF</span>
+          <span class="guest-name" data-guest-name>Divya Flores</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0104" data-rsvp-status="GOING" data-email="daehyun.novak.113@example.net" data-phone="+15557000113">
+          <span class="avatar" aria-hidden="true">DN</span>
+          <span class="guest-name" data-guest-name>Daehyun Novak</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0105" data-rsvp-status="GOING" data-email="jisoo.garcia.114@example.net" data-phone="+15557000114">
+          <span class="avatar" aria-hidden="true">JG</span>
+          <span class="guest-name" data-guest-name>Jisoo Garcia</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0075" data-rsvp-status="GOING" data-email="layla.reyes.84@example.net">
+          <span class="avatar" aria-hidden="true">LR</span>
+          <span class="guest-name" data-guest-name>Layla Reyes</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0076" data-rsvp-status="GOING" data-email="ivan.okafor.85@example.net">
+          <span class="avatar" aria-hidden="true">IO</span>
+          <span class="guest-name" data-guest-name>Ivan Okafor</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0077" data-rsvp-status="GOING" data-email="daehyun.rodriguez.86@example.net">
+          <span class="avatar" aria-hidden="true">DR</span>
+          <span class="guest-name" data-guest-name>Daehyun Rodriguez</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0078" data-rsvp-status="GOING" data-email="daehyun.rao.87@example.net">
+          <span class="avatar" aria-hidden="true">DR</span>
+          <span class="guest-name" data-guest-name>Daehyun Rao</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0079" data-rsvp-status="GOING" data-email="anastasia.rodriguez.88@example.net">
+          <span class="avatar" aria-hidden="true">AR</span>
+          <span class="guest-name" data-guest-name>Anastasia Rodriguez</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0080" data-rsvp-status="GOING" data-email="minjun.rao.89@example.net">
+          <span class="avatar" aria-hidden="true">MR</span>
+          <span class="guest-name" data-guest-name>Minjun Rao</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0081" data-rsvp-status="GOING" data-email="emily.nakamura.90@example.net">
+          <span class="avatar" aria-hidden="true">EN</span>
+          <span class="guest-name" data-guest-name>Emily Nakamura</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0082" data-rsvp-status="GOING" data-email="karim.larsen.91@example.net">
+          <span class="avatar" aria-hidden="true">KL</span>
+          <span class="guest-name" data-guest-name>Karim Larsen</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0083" data-rsvp-status="GOING" data-email="diego.aziz.92@example.net">
+          <span class="avatar" aria-hidden="true">DA</span>
+          <span class="guest-name" data-guest-name>Diego Aziz</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0084" data-rsvp-status="GOING" data-email="jisoo.wang.93@example.net">
+          <span class="avatar" aria-hidden="true">JW</span>
+          <span class="guest-name" data-guest-name>Jisoo Wang</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0085" data-rsvp-status="GOING" data-email="sora.petrov.94@example.net">
+          <span class="avatar" aria-hidden="true">SP</span>
+          <span class="guest-name" data-guest-name>Sora Petrov</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0202" data-rsvp-status="GOING" data-email="alexei.morozov@example.com">
+          <span class="avatar" aria-hidden="true">AM</span>
+          <span class="guest-name" data-guest-name>Alexei Morozov</span>
+          <span class="badge badge-going">Going</span>
+        </li>
+        </ul>
+      </section>
+      <section class="status-group" data-status-group="MAYBE">
+        <h3>Maybe · 9</h3>
+        <ul>
+        <li class="guest" data-guest data-guest-id="pf-0092" data-rsvp-status="MAYBE" data-phone="+15557000101">
+          <span class="avatar" aria-hidden="true">NS</span>
+          <span class="guest-name" data-guest-name>Neha Suzuki</span>
+          <span class="badge badge-maybe">Maybe</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0093" data-rsvp-status="MAYBE" data-phone="+15557000102">
+          <span class="avatar" aria-hidden="true">ZK</span>
+          <span class="guest-name" data-guest-name>Zainab Kowalski</span>
+          <span class="badge badge-maybe">Maybe</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0094" data-rsvp-status="MAYBE" data-phone="+15557000103">
+          <span class="avatar" aria-hidden="true">TC</span>
+          <span class="guest-name" data-guest-name>Tariq Clark</span>
+          <span class="badge badge-maybe">Maybe</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0095" data-rsvp-status="MAYBE" data-phone="+15557000104">
+          <span class="avatar" aria-hidden="true">LK</span>
+          <span class="guest-name" data-guest-name>Ling Kim</span>
+          <span class="badge badge-maybe">Maybe</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0096" data-rsvp-status="MAYBE" data-phone="+15557000105">
+          <span class="avatar" aria-hidden="true">MK</span>
+          <span class="guest-name" data-guest-name>Marco Kim</span>
+          <span class="badge badge-maybe">Maybe</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0097" data-rsvp-status="MAYBE" data-phone="+15557000106">
+          <span class="avatar" aria-hidden="true">HK</span>
+          <span class="guest-name" data-guest-name>Haruto Khalil</span>
+          <span class="badge badge-maybe">Maybe</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0098" data-rsvp-status="MAYBE" data-email="james.flores.107@example.net" data-phone="+15557000107">
+          <span class="avatar" aria-hidden="true">JF</span>
+          <span class="guest-name" data-guest-name>James Flores</span>
+          <span class="badge badge-maybe">Maybe</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0086" data-rsvp-status="MAYBE" data-email="claire.mensah.95@example.net">
+          <span class="avatar" aria-hidden="true">CM</span>
+          <span class="guest-name" data-guest-name>Claire Mensah</span>
+          <span class="badge badge-maybe">Maybe</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0087" data-rsvp-status="MAYBE" data-email="tendai.clark.96@example.net">
+          <span class="avatar" aria-hidden="true">TC</span>
+          <span class="guest-name" data-guest-name>Tendai Clark</span>
+          <span class="badge badge-maybe">Maybe</span>
+        </li>
+        </ul>
+      </section>
+      <section class="status-group" data-status-group="CANT_GO">
+        <h3>Can&#x27;t Go · 7</h3>
+        <ul>
+        <li class="guest" data-guest data-guest-id="pf-0058" data-rsvp-status="CANT_GO" data-phone="+15557000058">
+          <span class="avatar" aria-hidden="true">DP</span>
+          <span class="guest-name" data-guest-name>Daniel Park</span>
+          <span class="badge badge-cantgo">Can&#x27;t Go</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0099" data-rsvp-status="CANT_GO" data-email="abena.okafor.108@example.net" data-phone="+15557000108">
+          <span class="avatar" aria-hidden="true">AO</span>
+          <span class="guest-name" data-guest-name>Abena Okafor</span>
+          <span class="badge badge-cantgo">Can&#x27;t Go</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0100" data-rsvp-status="CANT_GO" data-email="katarina.aziz.109@example.net" data-phone="+15557000109">
+          <span class="avatar" aria-hidden="true">KA</span>
+          <span class="guest-name" data-guest-name>Katarina Aziz</span>
+          <span class="badge badge-cantgo">Can&#x27;t Go</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0101" data-rsvp-status="CANT_GO" data-email="amara.clark.110@example.net" data-phone="+15557000110">
+          <span class="avatar" aria-hidden="true">AC</span>
+          <span class="guest-name" data-guest-name>Amara Clark</span>
+          <span class="badge badge-cantgo">Can&#x27;t Go</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0102" data-rsvp-status="CANT_GO" data-email="dmitri.johnson.111@example.net" data-phone="+15557000111">
+          <span class="avatar" aria-hidden="true">DJ</span>
+          <span class="guest-name" data-guest-name>Dmitri Johnson</span>
+          <span class="badge badge-cantgo">Can&#x27;t Go</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0118" data-rsvp-status="CANT_GO" data-phone="+15557000127" data-linkedin="https://linkedin.com/in/elena.rodriguez-127">
+          <span class="avatar" aria-hidden="true">ER</span>
+          <span class="guest-name" data-guest-name>Elena Rodriguez</span>
+          <span class="badge badge-cantgo">Can&#x27;t Go</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0119" data-rsvp-status="CANT_GO" data-phone="+15557000128" data-linkedin="https://linkedin.com/in/haruto.wang-128">
+          <span class="avatar" aria-hidden="true">HW</span>
+          <span class="guest-name" data-guest-name>Haruto Wang</span>
+          <span class="badge badge-cantgo">Can&#x27;t Go</span>
+        </li>
+        </ul>
+      </section>
+      <section class="status-group" data-status-group="INVITED">
+        <h3>Invited — no reply yet · 16</h3>
+        <ul>
+        <li class="guest" data-guest data-guest-id="pf-0106" data-rsvp-status="INVITED" data-email="neha.lin.115@example.net" data-phone="+15557000115">
+          <span class="avatar" aria-hidden="true">NL</span>
+          <span class="guest-name" data-guest-name>Neha Lin</span>
+          <span class="badge badge-invited">Invited — no reply yet</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0107" data-rsvp-status="INVITED" data-email="david.rossi.116@example.net" data-phone="+15557000116">
+          <span class="avatar" aria-hidden="true">DR</span>
+          <span class="guest-name" data-guest-name>David Rossi</span>
+          <span class="badge badge-invited">Invited — no reply yet</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0108" data-rsvp-status="INVITED" data-email="sophie.aziz.117@example.net" data-phone="+15557000117">
+          <span class="avatar" aria-hidden="true">SA</span>
+          <span class="guest-name" data-guest-name>Sophie Aziz</span>
+          <span class="badge badge-invited">Invited — no reply yet</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0109" data-rsvp-status="INVITED" data-email="tariq.rodriguez.118@example.net" data-phone="+15557000118">
+          <span class="avatar" aria-hidden="true">TR</span>
+          <span class="guest-name" data-guest-name>Tariq Rodriguez</span>
+          <span class="badge badge-invited">Invited — no reply yet</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0110" data-rsvp-status="INVITED" data-email="zainab.adeyemi.119@example.net" data-phone="+15557000119">
+          <span class="avatar" aria-hidden="true">ZA</span>
+          <span class="guest-name" data-guest-name>Zainab Adeyemi</span>
+          <span class="badge badge-invited">Invited — no reply yet</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0111" data-rsvp-status="INVITED" data-email="haruto.nair.120@example.net" data-phone="+15557000120">
+          <span class="avatar" aria-hidden="true">HN</span>
+          <span class="guest-name" data-guest-name>Haruto Nair</span>
+          <span class="badge badge-invited">Invited — no reply yet</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0112" data-rsvp-status="INVITED" data-email="zainab.gupta.121@example.net" data-phone="+15557000121">
+          <span class="avatar" aria-hidden="true">ZG</span>
+          <span class="guest-name" data-guest-name>Zainab Gupta</span>
+          <span class="badge badge-invited">Invited — no reply yet</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0113" data-rsvp-status="INVITED" data-email="santiago.smith.122@example.net" data-phone="+15557000122">
+          <span class="avatar" aria-hidden="true">SS</span>
+          <span class="guest-name" data-guest-name>Santiago Smith</span>
+          <span class="badge badge-invited">Invited — no reply yet</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0120" data-rsvp-status="INVITED" data-phone="+15557000129" data-linkedin="https://linkedin.com/in/abena.vasan-129">
+          <span class="avatar" aria-hidden="true">AV</span>
+          <span class="guest-name" data-guest-name>Abena Vasan</span>
+          <span class="badge badge-invited">Invited — no reply yet</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0121" data-rsvp-status="INVITED" data-phone="+15557000130" data-linkedin="https://linkedin.com/in/freya.hernandez-130">
+          <span class="avatar" aria-hidden="true">FH</span>
+          <span class="guest-name" data-guest-name>Freya Hernandez</span>
+          <span class="badge badge-invited">Invited — no reply yet</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0122" data-rsvp-status="INVITED" data-phone="+15557000131" data-linkedin="https://linkedin.com/in/aiko.khalil-131">
+          <span class="avatar" aria-hidden="true">AK</span>
+          <span class="guest-name" data-guest-name>Aiko Khalil</span>
+          <span class="badge badge-invited">Invited — no reply yet</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0123" data-rsvp-status="INVITED" data-email="jun.rodriguez.132@example.net" data-phone="+15557000132" data-linkedin="https://linkedin.com/in/jun.rodriguez-132">
+          <span class="avatar" aria-hidden="true">JR</span>
+          <span class="guest-name" data-guest-name>Jun Rodriguez</span>
+          <span class="badge badge-invited">Invited — no reply yet</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0124" data-rsvp-status="INVITED" data-email="farah.flores.133@example.net" data-phone="+15557000133" data-linkedin="https://linkedin.com/in/farah.flores-133">
+          <span class="avatar" aria-hidden="true">FF</span>
+          <span class="guest-name" data-guest-name>Farah Flores</span>
+          <span class="badge badge-invited">Invited — no reply yet</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0125" data-rsvp-status="INVITED" data-email="yusuf.okafor.134@example.net" data-phone="+15557000134" data-linkedin="https://linkedin.com/in/yusuf.okafor-134">
+          <span class="avatar" aria-hidden="true">YO</span>
+          <span class="guest-name" data-guest-name>Yusuf Okafor</span>
+          <span class="badge badge-invited">Invited — no reply yet</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0126" data-rsvp-status="INVITED" data-email="aiko.verma.135@example.net" data-phone="+15557000135" data-linkedin="https://linkedin.com/in/aiko.verma-135">
+          <span class="avatar" aria-hidden="true">AV</span>
+          <span class="guest-name" data-guest-name>Aiko Verma</span>
+          <span class="badge badge-invited">Invited — no reply yet</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0114" data-rsvp-status="INVITED" data-email="kwame.aziz.123@example.net" data-linkedin="https://linkedin.com/in/kwame.aziz-123">
+          <span class="avatar" aria-hidden="true">KA</span>
+          <span class="guest-name" data-guest-name>Kwame Aziz</span>
+          <span class="badge badge-invited">Invited — no reply yet</span>
+        </li>
+        </ul>
+      </section>
+      <section class="status-group" data-status-group="ADDED">
+        <h3>Added — invite not sent · 3</h3>
+        <ul>
+        <li class="guest" data-guest data-guest-id="pf-0115" data-rsvp-status="ADDED" data-email="sophie.farouk.124@example.net" data-linkedin="https://linkedin.com/in/sophie.farouk-124">
+          <span class="avatar" aria-hidden="true">SF</span>
+          <span class="guest-name" data-guest-name>Sophie Farouk</span>
+          <span class="badge badge-added">Added — invite not sent</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0116" data-rsvp-status="ADDED" data-email="sarah.okafor.125@example.net" data-linkedin="https://linkedin.com/in/sarah.okafor-125">
+          <span class="avatar" aria-hidden="true">SO</span>
+          <span class="guest-name" data-guest-name>Sarah Okafor</span>
+          <span class="badge badge-added">Added — invite not sent</span>
+        </li>
+        <li class="guest" data-guest data-guest-id="pf-0117" data-rsvp-status="ADDED" data-email="valentina.nguyen.126@example.net" data-linkedin="https://linkedin.com/in/valentina.nguyen-126">
+          <span class="avatar" aria-hidden="true">VN</span>
+          <span class="guest-name" data-guest-name>Valentina Nguyen</span>
+          <span class="badge badge-added">Added — invite not sent</span>
+        </li>
+        </ul>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
